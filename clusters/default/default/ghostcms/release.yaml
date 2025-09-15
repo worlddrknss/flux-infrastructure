@@ -1,0 +1,30 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: ghost
+  namespace: default
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: ghost
+      version: 20.1.28   # pick a stable version from the Bitnami repo
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: flux-system
+  values:
+    ghostUsername: admin
+    ghostPassword: changeme123
+    ghostEmail: admin@example.com
+    ghostBlogTitle: "My Ghost Blog"
+
+    service:
+      type: ClusterIP
+      port: 80
+
+    ingress:
+      enabled: true
+      hostname: ghost.local
+      ingressClassName: nginx
+      tls: false
