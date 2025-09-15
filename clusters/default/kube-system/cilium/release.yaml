@@ -35,5 +35,10 @@ spec:
           - http
       relay:
         enabled: true
+        hostPort: false
       ui:
         enabled: true
+        hostPort: false
+
+    hostPort:
+      enabled: false
