@@ -16,13 +16,12 @@ spec:
   install:
     createNamespace: true
   values:
-  ipam:
-    mode: cluster-pool
-    operator:
-      clusterPoolIPv4PodCIDRList:
-        - "10.42.0.0/16"
-      clusterPoolIPv4MaskSize: 24
-    enable-lb-ipam: true
+    ipam:
+      mode: cluster-pool
+      operator:
+        clusterPoolIPv4PodCIDRList:
+          - "10.42.0.0/16"
+      enable-lb-ipam: true
 
     # --- Hubble configuration ---
     hubble:
