@@ -17,7 +17,23 @@ spec:
     createNamespace: true
   values:
     ipam:
+      mode: cluster-pool
       operator:
         clusterPoolIPv4PodCIDRList:
           - "10.42.0.0/16"
       enable-lb-ipam: true
+
+    hubble:
+      enabled: true
+      metrics:
+        enabled:
+          - dns
+          - drop
+          - tcp
+          - flow
+          - icmp
+          - http
+      relay:
+        enabled: true
+      ui:
+        enabled: true
