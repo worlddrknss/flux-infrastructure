@@ -23,6 +23,9 @@ spec:
           - "10.42.0.0/16"
       enable-lb-ipam: true
 
+    operator:
+      replicas: 1
+
     hostPort:
       enabled: false
 
