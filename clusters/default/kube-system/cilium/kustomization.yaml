@@ -1,13 +1,16 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cilium
+  name: cilium-crs
   namespace: flux-system
 spec:
-  interval: 10m
-  path: ./clusters/default/kube-system/cilium
+  interval: 5m
+  path: ./clusters/default/kube-system/cilium/manifest  # Path to CRs
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
-    namespace: flux-system
+    name: flux-system  # Default Flux Git repo
+  targetNamespace: kube-system
+  dependsOn:
+    - name: cilium
+      namespace: kube-system  # Matches HelmRelease
