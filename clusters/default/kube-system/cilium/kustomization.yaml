@@ -5,12 +5,12 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: ./clusters/default/kube-system/cilium/manifest  # Path to CRs
+  path: ./clusters/default/kube-system/cilium/manifest  # Point to the manifest folder
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system  # Default Flux Git repo
+    name: flux-system
   targetNamespace: kube-system
   dependsOn:
     - name: cilium
-      namespace: kube-system  # Matches HelmRelease
+      namespace: kube-system
