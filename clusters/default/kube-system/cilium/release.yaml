@@ -23,6 +23,9 @@ spec:
           - "10.42.0.0/16"
       enable-lb-ipam: true
 
+    hostPort:
+      enabled: false
+
     hubble:
       enabled: true
       metrics:
@@ -39,6 +42,3 @@ spec:
       ui:
         enabled: true
         hostPort: false
-
-    hostPort:
-      enabled: false
