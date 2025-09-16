@@ -9,11 +9,11 @@ spec:
   chart:
     spec:
       chart: apache
-      version: "*"                # always grab the latest
+      version: "*"                 # latest available
       sourceRef:
         kind: HelmRepository
         name: bitnami
-        namespace: apache
+        namespace: flux-system     # 👈 reference the central repo
   install:
     remediation:
       retries: 3
