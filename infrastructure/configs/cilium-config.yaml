@@ -1,0 +1,20 @@
+---
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: default-announcment-policy
+  namespace: kube-system
+spec:
+  interfaces:
+    - eno1
+  loadBalancerIPs: true
+---
+apiVersion: "cilium.io/v2"
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: default-loadbalancer-pool
+  namespace: kube-system
+spec:
+  blocks:
+    - start: "172.17.1.200"
+      stop: "172.17.1.220"

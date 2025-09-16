@@ -1,9 +1,0 @@
-apiVersion: "cilium.io/v2"
-kind: CiliumLoadBalancerIPPool
-metadata:
-  name: "lb-pool"
-  namespace: kube-system
-spec:
-  blocks:
-    - start: "172.17.1.200"
-      stop: "172.17.1.220"
