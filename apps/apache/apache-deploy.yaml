@@ -8,7 +8,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: bitnami
-  namespace: apache
+  namespace: flux-system
 spec:
   interval: 12h
   url: https://charts.bitnami.com/bitnami
@@ -23,11 +23,11 @@ spec:
   chart:
     spec:
       chart: apache
-      version: "*"      # always grab the latest
+      version: "*"                 # always grab the latest available
       sourceRef:
         kind: HelmRepository
         name: bitnami
-        namespace: apache
+        namespace: flux-system     # 👈 reference the repo in flux-system
   values:
     service:
       type: ClusterIP
@@ -36,4 +36,4 @@ spec:
     ingress:
       enabled: false
     persistence:
-      enabled: false    # keep it ephemeral
+      enabled: false               # ephemeral — no PVC
