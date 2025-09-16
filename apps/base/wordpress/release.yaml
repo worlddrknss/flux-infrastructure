@@ -8,11 +8,11 @@ spec:
   chart:
     spec:
       chart: wordpress
+      version: "*"
       sourceRef:
         kind: HelmRepository
-        name: wordpress
+        name: bitnami
         namespace: podinfo
-      version: "*"
   interval: 50m
   install:
     remediation:
@@ -21,19 +21,31 @@ spec:
   values:
     replicaCount: 1
 
+    image:
+      repository: docker.io/bitnami/wordpress
+      tag: latest
+
     service:
       type: ClusterIP
       port: 80
 
     ingress:
       enabled: true
-      className: nginx
-      hosts:
-        - host: wordpress.local
-          paths:
-            - path: /
-              pathType: Prefix
+      ingressClassName: nginx
+      hostname: wordpress.local
+      pathType: Prefix
+      extraHosts: []
       tls: []
+
+    redis:
+      enabled: true
+      architecture: standalone
+      auth:
+        enabled: false
+      image:
+        registry: docker.io
+        repository: bitnami/redis
+        tag: 7.0.6
 
     persistence:
       enabled: true
