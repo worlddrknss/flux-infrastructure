@@ -27,7 +27,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: ingress-nginx
-        namespace: flux-system
+        namespace: ingress-nginx
   install:
     createNamespace: true
   values:
