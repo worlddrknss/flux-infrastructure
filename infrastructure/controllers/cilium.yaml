@@ -1,9 +1,14 @@
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kube-system
+---
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: cilium
-  namespace: flux-system
+  namespace: kube-system
 spec:
   interval: 10m
   url: https://helm.cilium.io/
@@ -22,7 +27,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: cilium
-        namespace: flux-system
+        namespace: kube-system
   install:
     createNamespace: true
   values:
