@@ -1,0 +1,54 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: wordpress
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: bitnami
+  namespace: wordpress
+spec:
+  interval: 12h
+  url: https://charts.bitnami.com/bitnami
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: wordpress
+  namespace: wordpress
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: wordpress
+      version: "*"   # always pull latest available
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: wordpress
+  values:
+    wordpressUsername: user
+    wordpressPassword: password123
+    wordpressEmail: user@example.com
+    wordpressFirstName: Flux
+    wordpressLastName: User
+    wordpressBlogName: "FluxCD WordPress"
+    service:
+      type: ClusterIP
+      ports:
+        http: 80
+    ingress:
+      enabled: false   # flip to true + configure if you want ingress
+    persistence:
+      enabled: false   # keep simple, no PVC for now
+    mariadb:
+      auth:
+        rootPassword: mariadb-root
+        username: bn_wordpress
+        password: mariadb-pass
+        database: bitnami_wordpress
+      primary:
+        persistence:
+          enabled: false   # no PVC for db either
