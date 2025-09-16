@@ -21,10 +21,6 @@ spec:
   values:
     replicaCount: 1
 
-    image:
-      repository: ghcr.io/groundhog2k/wordpress
-      tag: latest
-
     service:
       type: ClusterIP
       port: 80
@@ -38,12 +34,6 @@ spec:
             - path: /
               pathType: Prefix
       tls: []
-
-    redis:
-      enabled: true
-      image:
-        repository: public.ecr.aws/docker/library/redis
-        tag: "7.0.6"
 
     persistence:
       enabled: true
