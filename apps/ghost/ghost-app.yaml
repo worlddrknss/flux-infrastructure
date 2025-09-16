@@ -23,7 +23,7 @@ spec:
   chart:
     spec:
       chart: ghost
-      version: 21.2.13   # check latest
+      version: "*"
       sourceRef:
         kind: HelmRepository
         name: bitnami
