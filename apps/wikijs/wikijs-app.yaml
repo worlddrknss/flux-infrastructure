@@ -8,18 +8,18 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: bjw-s
-  namespace: flux-system
+  namespace: wikijs
 spec:
-  interval: 1h
+  interval: 24h
   url: https://bjw-s.github.io/helm-charts
 ---
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: bitnami
-  namespace: flux-system
+  namespace: wikijs
 spec:
-  interval: 1h
+  interval: 24h
   url: https://charts.bitnami.com/bitnami
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
@@ -28,17 +28,16 @@ metadata:
   name: postgres
   namespace: wikijs
 spec:
-  interval: 5m
+  interval: 30m
   chart:
     spec:
       chart: postgresql
-      version: 15.5.14   # check latest in Bitnami repo
+      version: 15.5.14
       sourceRef:
         kind: HelmRepository
         name: bitnami
-        namespace: flux-system
-  install:
-    createNamespace: true
+        namespace: wikijs
+      interval: 12h
   values:
     auth:
       username: wikijs
@@ -55,19 +54,24 @@ metadata:
   name: wikijs
   namespace: wikijs
 spec:
-  interval: 5m
+  interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 2.4.0   # check latest in bjw-s repo
+      version: 2.4.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
         namespace: wikijs
+      interval: 12h
   values:
-    image:
-      repository: requarks/wiki
-      tag: "2.5.300"
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: requarks/wiki
+              tag: "2.5.300"
     service:
       main:
         ports:
