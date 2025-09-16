@@ -30,7 +30,6 @@ spec:
       ingressClassName: nginx
       hostname: wordpress.local
       pathType: Prefix
-      tls: []
 
     persistence:
       enabled: true
