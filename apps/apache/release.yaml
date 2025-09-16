@@ -1,0 +1,28 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: apache
+  namespace: apache
+spec:
+  releaseName: apache
+  interval: 30m
+  chart:
+    spec:
+      chart: apache
+      version: "*"                # always grab the latest
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: apache
+  install:
+    remediation:
+      retries: 3
+  values:
+    service:
+      type: ClusterIP
+      ports:
+        http: 80
+    ingress:
+      enabled: false
+    persistence:
+      enabled: false
