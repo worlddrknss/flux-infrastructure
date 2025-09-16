@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: wordpress
-      version: "*"
+      version: "26.0.0"   # match Bitnami’s latest version
       sourceRef:
         kind: HelmRepository
         name: bitnami
@@ -21,10 +21,6 @@ spec:
   values:
     replicaCount: 1
 
-    image:
-      repository: docker.io/bitnami/wordpress
-      tag: latest
-
     service:
       type: ClusterIP
       port: 80
@@ -34,18 +30,7 @@ spec:
       ingressClassName: nginx
       hostname: wordpress.local
       pathType: Prefix
-      extraHosts: []
       tls: []
-
-    redis:
-      enabled: true
-      architecture: standalone
-      auth:
-        enabled: false
-      image:
-        registry: docker.io
-        repository: bitnami/redis
-        tag: 7.0.6
 
     persistence:
       enabled: true
