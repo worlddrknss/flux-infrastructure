@@ -150,7 +150,8 @@ vault auth enable kubernetes
 vault write auth/kubernetes/config \
   kubernetes_host="https://kubernetes.default.svc.cluster.local" \
   kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt \
-  token_reviewer_jwt="$(kubectl -n hashicorp create token vault-auth)"
+  token_reviewer_jwt="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
+
 
 # Create the Vault role for Flux
 vault write auth/kubernetes/role/flux-sops-role \
