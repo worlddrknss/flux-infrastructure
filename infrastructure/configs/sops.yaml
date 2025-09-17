@@ -1,0 +1,4 @@
+creation_rules:
+  - kms: "vault-transit://sops"
+    encrypted_regex: '^(data|stringData)$'
+    path_regex: 'secrets/.*\.yaml$'
