@@ -119,6 +119,8 @@ This policy grants Flux controllers the minimal permissions needed to encrypt an
 
 For automation or script-based deployment, use these Vault CLI commands instead of the UI:
 
+> **Note**: Run within a vault pod. Eg Vault-0
+
 ```bash
 # Ensure you're authenticated to Vault
 export VAULT_ADDR="http://<vault-node-ip>:8200"
