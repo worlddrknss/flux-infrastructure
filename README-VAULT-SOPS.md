@@ -2,7 +2,7 @@
 HashiCorp Vault + SOPS Integration Guide for Flux
 ===================================================
 
-> **Note**: This is a rough, preliminary draft and may require refinement for production use.
+> **Note**: This is publication is based on K3S, and may require refinement for production use.
 
 Purpose
 -------
