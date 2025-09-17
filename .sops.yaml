@@ -1,4 +1,4 @@
 creation_rules:
-  - path_regex: secrets/.*\.yaml$  # Narrow to secret files
-    encrypted_regex: ^(data|stringData)$
-    hc_vault_transit: https://vault.hashicorp.svc.cluster.local:8200/v1/transit/sops
+  - path_regex: secrets/.*\.yaml$
+    encrypted_regex: '^(data|stringData)$'
+    kms: "vault-transit://sops?role=flux-sops-role"
