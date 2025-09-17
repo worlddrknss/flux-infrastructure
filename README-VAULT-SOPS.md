@@ -98,8 +98,10 @@ This policy grants Flux controllers the minimal permissions needed to encrypt an
 1. Click into the newly enabled `kubernetes` auth method
 2. Go to **Configuration** and provide the following details:
    - **Kubernetes Host**: `https://kubernetes.default.svc.cluster.local`
-   - **CA Certificate**: Paste the contents from `/var/run/secrets/kubernetes.io/serviceaccount/ca.crt`
-   - **Token Reviewer JWT**: Paste the JWT token for a service account with TokenReview permissions
+   - **CA Certificate**: Paste the contents from `/var/lib/rancher/k3s/server/tls/server-ca.crt`
+   - **Token Reviewer JWT**: Paste the JWT token for a service account with TokenReview permissions.
+     - To generate a JWT token via kubectl `kubectl -n hashicorp create token vault-auth
+`
 3. Click **Save** to store the configuration
 
 ### Step 7: Create Vault Role for Flux Controllers
@@ -146,7 +148,7 @@ vault auth enable kubernetes
 vault write auth/kubernetes/config \
   kubernetes_host="https://kubernetes.default.svc.cluster.local" \
   kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt \
-  token_reviewer_jwt="<token-reviewer-jwt>"
+  token_reviewer_jwt="$(kubectl -n hashicorp create token vault-auth)"
 
 # Create the Vault role for Flux
 vault write auth/kubernetes/role/flux-sops-role \
