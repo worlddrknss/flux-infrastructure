@@ -6,7 +6,6 @@ resources:
   - cilium-config.yaml
   - sops-rbac.yaml
   - vault-auth-sa.yaml
-  - vault-config.yaml
 
 patchesStrategicMerge:
   - kustomize-patch.yaml
