@@ -17,5 +17,3 @@ spec:
   timeout: 15m0s
   decryption:
     provider: sops
-    secretRef:
-      name: sops-vault-auth
