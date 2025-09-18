@@ -2,10 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - kustomize-patch.yaml
-  - cilium-config.yaml
-  - sops-rbac.yaml
-  - vault-auth-sa.yaml
+  - ./base
 
 patchesStrategicMerge:
-  - kustomize-patch.yaml
+  - ./patches/kustomize-patch.yaml

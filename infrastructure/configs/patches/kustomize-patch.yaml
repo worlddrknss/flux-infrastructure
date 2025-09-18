@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kustomize-controller
+  namespace: flux-system
+spec:
+  template:
+    spec:
+      containers:
+      - name: manager
+        env:
+        - name: VAULT_ADDR
+          value: "http://vault.hashicorp.svc.cluster.local:8200"
+        - name: VAULT_AUTH_METHOD
+          value: "kubernetes"
+        - name: VAULT_AUTH_PATH
+          value: "auth/kubernetes"
+        - name: VAULT_ROLE
+          value: "sops"
