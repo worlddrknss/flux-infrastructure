@@ -4,29 +4,5 @@ kind: Kustomization
 resources:
   - ./base
 
-patches:
-  - target:
-      kind: Deployment
-      name: kustomize-controller
-      namespace: flux-system
-    patch: |-
-      - op: add
-        path: /spec/template/spec/containers/0/env/-
-        value:
-          name: VAULT_ADDR
-          value: "http://vault.hashicorp.svc.cluster.local:8200"
-      - op: add
-        path: /spec/template/spec/containers/0/env/-
-        value:
-          name: VAULT_AUTH_METHOD
-          value: "kubernetes"
-      - op: add
-        path: /spec/template/spec/containers/0/env/-
-        value:
-          name: VAULT_AUTH_PATH
-          value: "auth/kubernetes"
-      - op: add
-        path: /spec/template/spec/containers/0/env/-
-        value:
-          name: VAULT_ROLE
-          value: "sops"
+patchesStrategicMerge:
+  - ./patches/kustomize-patch.yaml
