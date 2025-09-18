@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cilium-controllers
+  name: infra-repositories
   namespace: flux-system
 spec:
   interval: 1h
@@ -11,26 +11,9 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/cilium/controllers
+  path: ./infrastructure/repositories
   prune: true
-  wait: false
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: cilium-configs
-  namespace: flux-system
-spec:
-  dependsOn:
-    - name: cilium-controllers
-  interval: 1h
-  retryInterval: 1m
-  timeout: 5m
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./infrastructure/cilium/configs
-  prune: true
+  wait: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -44,23 +27,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/base/controllers
-  prune: true
-  wait: true
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: infra-repositories
-  namespace: flux-system
-spec:
-  interval: 1h
-  retryInterval: 1m
-  timeout: 5m
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./infrastructure/repositories
+  path: ./infrastructure/controllers
   prune: true
   wait: true
 ---
@@ -78,7 +45,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/base/configs
+  path: ./infrastructure/configs
   prune: true
   # patches:
   #   - patch: |
