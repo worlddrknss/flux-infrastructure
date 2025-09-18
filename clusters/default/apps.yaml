@@ -15,7 +15,3 @@ spec:
   prune: true
   wait: false
   timeout: 15m0s
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-hcvault-auth
