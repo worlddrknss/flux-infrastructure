@@ -1,0 +1,6 @@
+kind: Kustomization
+namespace: podinfo
+resources:
+  - ghost-secret.yaml
+  - repository.yaml
+  - release.yaml
