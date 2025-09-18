@@ -5,6 +5,18 @@ metadata:
   name: vault-auth-reviewer
   namespace: kube-system
 ---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sops-hcvault-auth
+  namespace: flux-system
+type: Opaque
+stringData:
+  sops.vault-addr: "http://vault.hashicorp.svc.cluster.local:8200"
+  sops.vault-auth-method: "kubernetes"
+  sops.vault-auth-path: "auth/kubernetes"
+  sops.vault-auth-role: "sops"
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
