@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sops-vault-auth
+  namespace: flux-system
+type: Opaque
+stringData:
+  sops.vault-addr: "http://vault.hashicorp.svc.cluster.local:8200"
+  sops.vault-auth-method: "kubernetes"
+  sops.vault-auth-path: "auth/kubernetes"
+  sops.vault-auth-role: "flux-sops-role"
