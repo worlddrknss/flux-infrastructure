@@ -20,7 +20,7 @@ spec:
             - containerPort: 3306
           envFrom:
             - secretRef:
-                name: mysql-secret
+                name: mysql-secret   # ESO creates this
           volumeMounts:
             - name: mysql-storage
               mountPath: /var/lib/mysql
@@ -33,4 +33,4 @@ spec:
               memory: "1Gi"
       volumes:
         - name: mysql-storage
-          emptyDir: {} # replace with PVC for persistence
+          emptyDir: {} # TODO: replace with PVC for persistence
