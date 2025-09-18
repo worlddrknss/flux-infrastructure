@@ -1,5 +1,4 @@
 kind: Kustomization
 namespace: podinfo
 resources:
-  - repository.yaml
   - release.yaml
