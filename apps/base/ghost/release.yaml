@@ -17,22 +17,3 @@ spec:
     ghostPassword: ""
     existingSecret: ghost-secret
     existingSecretKey: ghost-password
-
-    # disable internal DBs
-    mysql:
-      enabled: false
-    mariadb:
-      enabled: false
-
-    # configure external database
-    externalDatabase:
-      host: ghost-db.podinfo.svc.cluster.local   # your DB service
-      port: 3306
-      user: ghost
-      password: "changeme"   # replace with ESO-managed secret
-      database: ghost
-
-    persistence:
-      enabled: false   # disable PVC for demo; enable in prod
-    service:
-      type: ClusterIP
