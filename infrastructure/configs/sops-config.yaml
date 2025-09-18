@@ -47,7 +47,7 @@ spec:
       - name: manager
         env:
         - name: VAULT_ADDR
-          value: "http://vault.vault:8200"  # Adjust to your Vault address
+          value: "http://vault.hashicorp.svc.cluster.local:8200"  # Adjust to your Vault address
         - name: VAULT_AUTH_METHOD
           value: "kubernetes"
         - name: VAULT_AUTH_PATH
