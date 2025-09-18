@@ -1,6 +1,0 @@
-creation_rules:
-  - path_regex: 'secrets/.*\.yaml$'
-    encrypted_regex: ^(data|stringData)$
-    hc_vault_transit: "http://vault.hashicorp.svc.cluster.local:8200/v1/transit/sops-key"
-    vault_kv_mount_name: "secret"
-    vault_kv_version: 2

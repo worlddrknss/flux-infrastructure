@@ -89,55 +89,43 @@ FluxCD automates deployment, monitoring, and management of Kubernetes workloads 
 
 This repository is a demonstration and learning reference. It is not production-ready and needs additional hardening (RBAC, secrets management, network policies, and image signing) for real deployments.
 
-## Work in progress: SOPS + HashiCorp Vault integration
+## Secrets Management: External Secrets Operator + HashiCorp Vault
 
-Goal: enable encrypted secrets management for manifests and Helm values using Mozilla SOPS, with keys managed by HashiCorp Vault (Transit secret engine), and automated decryption in-cluster via a SOPS controller or external decryptor used by Flux.
+This repository includes configuration for secure secrets management using External Secrets Operator (ESO) integrated with HashiCorp Vault. This approach provides centralized secret storage in Vault with automated synchronization to Kubernetes secrets via ESO.
 
-Planned approach and components:
+### Implementation Overview
 
-- Use `sops` to encrypt YAML manifests and Helm value files in the repo. Encryption keys will be provided by a Vault Transit key (or Vault-managed PGP/age keys depending on final approach).
-- Configure Vault (HashiCorp Vault) to host the encryption key(s) and enable the `transit` secret engine for envelope encryption.
-- Run a decryption agent in-cluster (examples: Flux's `sops-controller` or an init sidecar) that can fetch keys from Vault and decrypt resources for Flux before apply.
-- Store Vault credentials in Kubernetes as tightly-scoped ServiceAccounts + Vault Agent or Kubernetes auth method with least privilege.
+- **External Secrets Operator (ESO)**: Deployed in-cluster to sync secrets from external systems (Vault) to Kubernetes Secret resources
+- **HashiCorp Vault**: Centralized secret storage using KV v2 secrets engine
+- **Kubernetes Authentication**: ESO authenticates to Vault using Kubernetes service account tokens
+- **Least Privilege Access**: Vault policies restrict ESO to read-only access on specific secret paths
 
-Example `.sops.yaml` (repository root) — instructs `sops` which keys to use (example using a Vault transit key):
+### Key Components
 
-```yaml
-creation_rules:
-  - path_regex: ".*\\.(yaml|yml)$"
-    encrypted_regex: "^(data|stringData)$"
-    key_groups:
-      - pgp: []
-    vault_transit:
-      - name: "flux-sops-transit"
-        address: "https://vault.example.local:8200"
-        token: "<use-automation-to-store-token>"
-```
+- ESO watches `ExternalSecret` and `SecretStore` custom resources
+- `SecretStore` defines how to connect to Vault (auth method, policies, endpoints)
+- `ExternalSecret` defines which secrets to sync and where to store them in Kubernetes
+- Vault Kubernetes auth method validates ESO service account tokens
+- Vault KV v2 secrets engine stores application secrets
 
-Notes: the `vault_transit` example above is illustrative — `sops` supports `pgp`, `age`, and `kms` backends natively; using Vault's transit engine is typically done through community integrations or by using Vault to generate wrapped keys.
+### Configuration Files
 
-Flux + SOPS integration patterns to consider:
+- `README-VAULT-ESO.md` — Complete setup guide for Vault + ESO integration
+- `infrastructure/base/controllers/external-secrets.yaml` — ESO controller deployment
+- `infrastructure/base/configs/vault-secretstore.yaml` — Vault SecretStore configuration
 
-- sops-controller: a Kubernetes controller that can watch SOPS-encrypted secrets and produce decrypted Secrets (requires RBAC and Vault connectivity).
-- External decryption: CI or a sidecar/agent that decrypts files and writes them to a location Flux reads (or to a GitRepository/OCI registry Flux can read from).
-- Use `age` keys sealed in Vault and export public keys to `sops` configs — simplifies local developer workflows while Vault holds private material.
+### Security Benefits
 
-Security considerations:
+- **No secrets in Git**: Application secrets remain in Vault, not committed to repository
+- **Centralized Management**: Single source of truth for secrets across environments  
+- **Audit Trail**: All secret access logged through Vault
+- **Automated Rotation**: ESO can sync updated secrets from Vault automatically
+- **Least Privilege**: ESO service account limited to specific Vault paths and operations
 
-- Do not commit Vault tokens or private keys to the repo. Use wrapped tokens, Kubernetes auth roles, or Vault Agent to authenticate.
-- Use least-privilege Vault policies scoped to only the transit/encrypt-decrypt operations required by Flux or the controller.
-- Rotate Transit keys periodically and have a migration/reencryption plan for repository secrets.
+### Next Steps
 
-Next steps (implementation plan):
-
-1. Prototype using `sops` + a Vault dev instance to encrypt/decrypt a single secret manifest.
-2. Evaluate `sops-controller` (or similar) for in-cluster decryption and test RBAC/Vault auth flows.
-3. Add example manifests and a `clusters/default` Kustomize overlay showing how encrypted secrets will be stored and referenced.
-4. Document operational steps for key rotation, token renewal, and troubleshooting.
-
-If you'd like, I can:
-
-- Add a working example `sops`-encrypted secret and a corresponding `sops` config in the repo.
-- Create a `scripts/` helper to encrypt/decrypt files with `sops` against a test Vault instance.
-- Draft Vault policies and example Kubernetes auth setup for the in-cluster service account.
+1. Review `README-VAULT-ESO.md` for detailed setup instructions
+2. Configure Vault with appropriate policies and Kubernetes auth
+3. Deploy ESO using the manifests in `infrastructure/`
+4. Create `ExternalSecret` resources for your applications
 
