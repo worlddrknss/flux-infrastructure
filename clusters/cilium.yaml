@@ -11,9 +11,9 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/base/controllers
+  path: ./infrastructure/cilium/controllers
   prune: true
-  wait: true
+  wait: false
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -29,13 +29,5 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/base/configs
+  path: ./infrastructure/cilium/configs
   prune: true
-  # patches:
-  #   - patch: |
-  #       - op: replace
-  #         path: /spec/acme/server
-  #         value: https://acme-v02.api.letsencrypt.org/directory
-  #     target:
-  #       kind: ClusterIssuer
-  #       name: letsencrypt
