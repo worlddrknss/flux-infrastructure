@@ -12,7 +12,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: bitnami
-        namespace: flux-system   # centralized repo, not podinfo
+        namespace: podinfo
   values:
     ghostPassword: ""
     existingSecret: ghost-secret
