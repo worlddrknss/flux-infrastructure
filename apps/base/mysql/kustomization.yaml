@@ -3,4 +3,3 @@ kind: Kustomization
 resources:
   - mysql-secret.yaml
   - deployment.yaml
-  - service.yaml
