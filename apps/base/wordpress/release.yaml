@@ -11,7 +11,7 @@ spec:
       version: "26.0.0"   # match Bitnami’s latest version
       sourceRef:
         kind: HelmRepository
-        name: bitnami
+        name: bitnami-oci
         namespace: podinfo
   interval: 50m
   install:
