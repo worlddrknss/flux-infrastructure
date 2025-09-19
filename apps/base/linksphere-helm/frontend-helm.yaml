@@ -1,0 +1,19 @@
+# frontend
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: linksphere-frontend-helm
+  namespace: podinfo
+spec:
+  interval: 1m
+  chart:
+    spec:
+      chart: ./infra/helm/linksphere-frontend
+      sourceRef:
+        kind: GitRepository
+        name: linksphere
+        namespace: flux-system
+  values:
+    image:
+      repository: ghcr.io/worlddrknss/linksphere-frontend
+      tag: latest
