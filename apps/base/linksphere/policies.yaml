@@ -7,9 +7,8 @@ spec:
   imageRepositoryRef:
     name: linksphere-frontend
   filterTags:
-    # Match build tags like build-1, build-42, build-1337
-    pattern: '^build-[0-9]+$'
-    extract: '$0'
+    pattern: '^build-(?P<ts>[0-9]+)$'
+    extract: '$ts'
   policy:
     numerical:
       order: asc
@@ -23,9 +22,8 @@ spec:
   imageRepositoryRef:
     name: linksphere-backend
   filterTags:
-    # Match build tags like build-1, build-42, build-1337
-    pattern: '^build-[0-9]+$'
-    extract: '$0'
+    pattern: '^build-(?P<ts>[0-9]+)$'
+    extract: '$ts'
   policy:
     numerical:
       order: asc
