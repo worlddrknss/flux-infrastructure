@@ -3,5 +3,5 @@ kind: Kustomization
 resources:
   - cilium-config.yaml
   - grafana-config.yaml
-  - vault-config.yaml
+  # - vault-config.yaml
   - cert-manager-config.yaml
