@@ -65,10 +65,7 @@ spec:
         memory: 1Gi
 
     endpoint:
-      queueSize: 1024   # default is 100, bump for burst rollouts
+      queueSize: 1024   # default 100 → higher for rollouts
 
     bpf:
-      mapDynamicSizeRatio: 0.0025   # enlarge BPF maps dynamically
-
-    agent:
-      concurrentEndpointQuota: 0    # 0 = unlimited, prevents 429 errors
+      mapDynamicSizeRatio: 0.0025   # scale BPF maps
