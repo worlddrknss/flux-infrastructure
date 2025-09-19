@@ -18,7 +18,7 @@ spec:
   chart:
     spec:
       chart: grafana
-      version: "*"   # latest available
+      version: "*"
       sourceRef:
         kind: HelmRepository
         name: grafana
@@ -32,6 +32,10 @@ spec:
     persistence:
       enabled: true
       size: 5Gi
+
+    initChownData:
+      enabled: false
+
     sidecar:
       datasources:
         enabled: true
@@ -39,4 +43,3 @@ spec:
       dashboards:
         enabled: true
         label: grafana_dashboard
-        folder: /tmp/dashboards
