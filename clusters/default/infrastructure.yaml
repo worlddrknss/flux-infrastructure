@@ -54,7 +54,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: infrastructure-network
+    - name: infra-network
   interval: 1h
   retryInterval: 1m
   timeout: 5m
