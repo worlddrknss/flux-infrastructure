@@ -32,3 +32,11 @@ spec:
     persistence:
       enabled: true
       size: 5Gi
+    sidecar:
+      datasources:
+        enabled: true
+        label: grafana_datasource
+      dashboards:
+        enabled: true
+        label: grafana_dashboard
+        folder: /tmp/dashboards
