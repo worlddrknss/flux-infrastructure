@@ -24,5 +24,14 @@ spec:
         name: cert-manager
         namespace: cert-manager
       interval: 12h
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+    timeout: 10m    # ⬅ longer timeout for first install
+  upgrade:
+    remediation:
+      retries: 3
+    timeout: 10m    # ⬅ longer timeout for upgrades
   values:
     installCRDs: true
