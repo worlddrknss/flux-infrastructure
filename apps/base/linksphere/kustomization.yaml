@@ -4,4 +4,5 @@ resources:
   - glcr-login.yaml
   - repository.yaml
   - policies.yaml
+  - linksphere-env.yaml
   - deployment.yaml
