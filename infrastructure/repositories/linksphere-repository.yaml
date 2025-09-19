@@ -7,7 +7,7 @@ spec:
   interval: 1m
   url: https://gitlab.com/worlddrknss/LinkSphere.git
   ref:
-    branch: master
+    branch: main
   ignore: |
     # exclude everything
     /*
