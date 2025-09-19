@@ -12,7 +12,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  timeout: 5m
+  timeout: 10m
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -27,7 +27,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  timeout: 5m
+  timeout: 10m
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -39,7 +39,7 @@ spec:
     - name: infra-namespaces
   interval: 1h
   retryInterval: 1m
-  timeout: 5m
+  timeout: 10m
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -57,7 +57,7 @@ spec:
     - name: infra-network
   interval: 1h
   retryInterval: 1m
-  timeout: 5m
+  timeout: 15m   # <-- more headroom for heavy controllers like cert-manager/vault
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -75,9 +75,10 @@ spec:
     - name: infra-controllers
   interval: 1h
   retryInterval: 1m
-  timeout: 5m
+  timeout: 10m
   sourceRef:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/configs
   prune: true
+  wait: true
