@@ -7,12 +7,12 @@ spec:
   imageRepositoryRef:
     name: linksphere-frontend
   filterTags:
-    # Match Git commit SHA tags (7–40 hex chars)
-    pattern: '^[a-f0-9]{7,40}$'
+    # Follow only branch tags we care about
+    pattern: '^(main|develop)$'
     extract: '$0'
   policy:
-    numerical:
-      order: asc   # sort tags by creation time (not alphabetically)
+    alphabetical:
+      order: asc
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImagePolicy
@@ -23,9 +23,8 @@ spec:
   imageRepositoryRef:
     name: linksphere-backend
   filterTags:
-    # Match Git commit SHA tags (7–40 hex chars)
-    pattern: '^[a-f0-9]{7,40}$'
+    pattern: '^(main|develop)$'
     extract: '$0'
   policy:
-    numerical:
+    alphabetical:
       order: asc
