@@ -7,11 +7,11 @@ spec:
   imageRepositoryRef:
     name: linksphere-frontend
   filterTags:
-    # Follow only branch tags we care about
-    pattern: '^(main|develop)$'
+    # Match build tags like build-1, build-42, build-1337
+    pattern: '^build-[0-9]+$'
     extract: '$0'
   policy:
-    alphabetical:
+    numerical:
       order: asc
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta2
@@ -23,8 +23,9 @@ spec:
   imageRepositoryRef:
     name: linksphere-backend
   filterTags:
-    pattern: '^(main|develop)$'
+    # Match build tags like build-1, build-42, build-1337
+    pattern: '^build-[0-9]+$'
     extract: '$0'
   policy:
-    alphabetical:
+    numerical:
       order: asc
