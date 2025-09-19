@@ -1,0 +1,20 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageUpdateAutomation
+metadata:
+  name: linksphere-automation
+  namespace: flux-system
+spec:
+  interval: 1m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  git:
+    commit:
+      author:
+        name: FluxCD Bot
+        email: fluxcd@worlddrknss.dev
+      messageTemplate: |
+        chore(images): update {{ .AutomationObject }} to {{ .LatestImage }}
+  update:
+    strategy: Setters
+    path: ./clusters/default

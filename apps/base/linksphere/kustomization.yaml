@@ -6,3 +6,4 @@ resources:
   - policies.yaml
   - linksphere-env.yaml
   - deployment.yaml
+  - automation.yaml
