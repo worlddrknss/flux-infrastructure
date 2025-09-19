@@ -1,4 +1,3 @@
----
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
@@ -26,6 +25,9 @@ spec:
   install:
     createNamespace: true
   values:
+    global:
+      # Enable vault injector webhook globally
+      enabled: true
     server:
       ha:
         enabled: false
@@ -35,5 +37,13 @@ spec:
         storageClass: local-path
       ingress:
         enabled: false
-    ui:
+      extraArgs:
+        - "-log-level=debug"
+      ui:
+        enabled: true
+    injector:
       enabled: true
+      replicas: 1
+      logLevel: debug
+      metrics:
+        enabled: true
