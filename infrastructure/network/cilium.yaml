@@ -54,3 +54,21 @@ spec:
       ui:
         enabled: true
         hostPort: false
+
+    # --- Performance tuning ---
+    resources:
+      requests:
+        cpu: 200m
+        memory: 512Mi
+      limits:
+        cpu: 1000m
+        memory: 1Gi
+
+    endpoint:
+      queueSize: 1024   # default is 100, bump for burst rollouts
+
+    bpf:
+      mapDynamicSizeRatio: 0.0025   # enlarge BPF maps dynamically
+
+    agent:
+      concurrentEndpointQuota: 0    # 0 = unlimited, prevents 429 errors
