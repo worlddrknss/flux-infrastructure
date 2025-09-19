@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: node-exporter-dashboard
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+data:
+  node-exporter.json: |
+    {
+      "id": null,
+      "title": "Node Exporter",
+      "tags": ["kubernetes"],
+      "schemaVersion": 27,
+      "version": 1,
+      "panels": [
+        {
+          "type": "graph",
+          "title": "CPU Usage",
+          "targets": [
+            {
+              "expr": "rate(node_cpu_seconds_total{mode!=\"idle\"}[5m])",
+              "legendFormat": "{{instance}}"
+            }
+          ]
+        }
+      ]
+    }
