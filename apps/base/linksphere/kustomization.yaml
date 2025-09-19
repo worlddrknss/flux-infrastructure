@@ -4,3 +4,4 @@ resources:
   - glcr-login.yaml
   - repository.yaml
   - policies.yaml
+  - deployment.yaml
