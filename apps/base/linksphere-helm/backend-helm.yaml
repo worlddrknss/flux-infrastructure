@@ -15,5 +15,5 @@ spec:
         namespace: flux-system
   values:
     image:
-      repository: ghcr.io/worlddrknss/linksphere-backend
+      repository: ghcr.io/worlddrknss/linksphere/linksphere-backend
       tag: latest
