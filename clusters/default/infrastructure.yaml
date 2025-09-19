@@ -1,3 +1,4 @@
+---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
@@ -16,9 +17,26 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: infrastructure-namespaces
+  namespace: flux-system
+spec:
+  interval: 10m
+  path: "./infrastructure/namespaces"
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  timeout: 5m
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: infra-repositories
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: infrastructure-namespaces
   interval: 1h
   retryInterval: 1m
   timeout: 5m
