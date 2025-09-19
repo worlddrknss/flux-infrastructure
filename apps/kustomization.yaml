@@ -3,5 +3,4 @@ kind: Kustomization
 resources:
   - base/podinfo
   - base/linksphere
-  # - base/wordpress
-  # - base/ghost
+  - base/postgres
