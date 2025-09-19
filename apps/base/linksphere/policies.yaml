@@ -10,7 +10,8 @@ spec:
     alphabetical:
       order: asc
   filterTags:
-    pattern: '^latest$'
+    # Match Git commit SHA tags (7–40 hex chars)
+    pattern: '^[a-f0-9]{7,40}$'
     extract: '$0'
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta2
@@ -25,5 +26,6 @@ spec:
     alphabetical:
       order: asc
   filterTags:
-    pattern: '^latest$'
+    # Match Git commit SHA tags (7–40 hex chars)
+    pattern: '^[a-f0-9]{7,40}$'
     extract: '$0'
