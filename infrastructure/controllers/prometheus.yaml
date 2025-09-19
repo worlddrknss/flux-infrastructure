@@ -26,7 +26,7 @@ spec:
       interval: 12h
   values:
     grafana:
-      enabled: false   # disable bundled grafana, we’ll install separately
+      enabled: false   # disable bundled grafana, we'll install separately
     prometheus:
       service:
         type: ClusterIP
