@@ -4,4 +4,4 @@ resources:
   - cilium-config.yaml
   - grafana-config.yaml
   - vault-config.yaml
-  - cert-manager-config.yaml
+#  - cert-manager-config.yaml
