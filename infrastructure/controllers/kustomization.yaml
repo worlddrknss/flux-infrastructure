@@ -5,5 +5,5 @@ resources:
   - external-secrets.yaml
  # - grafana.yaml
   - hashicorp-vault.yaml
- # - ingress-nginx.yaml
+  - ingress-nginx.yaml
  # - prometheus.yaml
