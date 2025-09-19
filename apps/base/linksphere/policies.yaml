@@ -1,3 +1,4 @@
+---
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImagePolicy
 metadata:
@@ -7,7 +8,8 @@ spec:
   imageRepositoryRef:
     name: linksphere-frontend
   policy:
-    tag:
+    alphabetic:
+      order: asc
       pattern: latest
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta2
@@ -19,5 +21,6 @@ spec:
   imageRepositoryRef:
     name: linksphere-backend
   policy:
-    tag:
+    alphabetic:
+      order: asc
       pattern: latest
