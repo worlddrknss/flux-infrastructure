@@ -4,4 +4,3 @@ resources:
   - base/podinfo
   - base/linksphere
   - base/postgres
-  - base/linksphere-helm
