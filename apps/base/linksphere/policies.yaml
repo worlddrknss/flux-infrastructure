@@ -1,0 +1,23 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: linksphere-frontend
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: linksphere-frontend
+  policy:
+    tag:
+      pattern: latest
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: linksphere-backend
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: linksphere-backend
+  policy:
+    tag:
+      pattern: latest

@@ -1,0 +1,21 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: linksphere-frontend
+  namespace: flux-system
+spec:
+  image: registry.gitlab.com/worlddrknss/linksphere/linksphere-frontend
+  interval: 1m
+  secretRef:
+    name: gitlab-registry-credentials
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: linksphere-backend
+  namespace: flux-system
+spec:
+  image: registry.gitlab.com/worlddrknss/linksphere/linksphere-backend
+  interval: 1m
+  secretRef:
+    name: gitlab-registry-credentials
