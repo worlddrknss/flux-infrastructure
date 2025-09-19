@@ -4,6 +4,6 @@ resources:
   - cert-manager-namespace.yaml
   - eso-namespace.yaml
   - hashicorp-namespace.yaml
-  - ingtress-nginx-namespace.yaml
+  - ingress-nginx-namespace.yaml
   - monitoring-namespace.yaml
   - podinfo-namespace.yaml
