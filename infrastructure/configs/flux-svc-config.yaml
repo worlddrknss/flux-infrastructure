@@ -5,14 +5,14 @@ metadata:
   name: kustomize-controller-metrics
   namespace: flux-system
   labels:
-    app.kubernetes.io/name: kustomize-controller
+    app: kustomize-controller
 spec:
   ports:
-    - name: http-metrics
+    - name: metrics
       port: 8080
-      targetPort: http-metrics
+      targetPort: 8080
   selector:
-    app.kubernetes.io/name: kustomize-controller
+    app: kustomize-controller
 ---
 apiVersion: v1
 kind: Service
@@ -20,14 +20,14 @@ metadata:
   name: helm-controller-metrics
   namespace: flux-system
   labels:
-    app.kubernetes.io/name: helm-controller
+    app: helm-controller
 spec:
   ports:
-    - name: http-metrics
+    - name: metrics
       port: 8080
-      targetPort: http-metrics
+      targetPort: 8080
   selector:
-    app.kubernetes.io/name: helm-controller
+    app: helm-controller
 ---
 apiVersion: v1
 kind: Service
@@ -35,14 +35,14 @@ metadata:
   name: source-controller-metrics
   namespace: flux-system
   labels:
-    app.kubernetes.io/name: source-controller
+    app: source-controller
 spec:
   ports:
-    - name: http-metrics
+    - name: metrics
       port: 8080
-      targetPort: http-metrics
+      targetPort: 8080
   selector:
-    app.kubernetes.io/name: source-controller
+    app: source-controller
 ---
 apiVersion: v1
 kind: Service
@@ -50,14 +50,14 @@ metadata:
   name: image-automation-controller-metrics
   namespace: flux-system
   labels:
-    app.kubernetes.io/name: image-automation-controller
+    app: image-automation-controller
 spec:
   ports:
-    - name: http-metrics
+    - name: metrics
       port: 8080
-      targetPort: http-metrics
+      targetPort: 8080
   selector:
-    app.kubernetes.io/name: image-automation-controller
+    app: image-automation-controller
 ---
 apiVersion: v1
 kind: Service
@@ -65,11 +65,11 @@ metadata:
   name: image-reflector-controller-metrics
   namespace: flux-system
   labels:
-    app.kubernetes.io/name: image-reflector-controller
+    app: image-reflector-controller
 spec:
   ports:
-    - name: http-metrics
+    - name: metrics
       port: 8080
-      targetPort: http-metrics
+      targetPort: 8080
   selector:
-    app.kubernetes.io/name: image-reflector-controller
+    app: image-reflector-controller
