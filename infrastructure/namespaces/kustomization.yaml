@@ -6,4 +6,5 @@ resources:
   - hashicorp-namespace.yaml
   - ingress-nginx-namespace.yaml
   - monitoring-namespace.yaml
-  - podinfo-namespace.yaml
+  - production-namespace.yaml
+  - security-namespace.yaml
