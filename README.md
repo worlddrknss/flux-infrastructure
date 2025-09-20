@@ -138,15 +138,17 @@ cd flux-infrastructure
 # Verify cluster access
 kubectl cluster-info
 
-# Bootstrap Flux
+# Bootstrap Flux with Image Automation components
 flux bootstrap git \
   --url=https://gitlab.com/worlddrknss/flux-infrastructure.git \
   --branch=main \
   --path=clusters/default \
-  --token-auth
+  --token-auth \
+  --components-extra=image-reflector-controller,image-automation-controller
 
 # Verify installation
 flux get kustomizations
+flux get images all
 kubectl get pods -n flux-system
 ```
 
@@ -155,7 +157,31 @@ kubectl get pods -n flux-system
 - [ ] All Flux controllers are running (`flux get all`)
 - [ ] GitRepository source is synchronized (`flux get sources git`)
 - [ ] Infrastructure components are deployed (`kubectl get pods --all-namespaces`)
-- [ ] Image automation is functioning (`flux get images all`)
+- [ ] Image automation components are active:
+  - [ ] Image reflector controller is running (`kubectl get pods -n flux-system -l app=image-reflector-controller`)
+  - [ ] Image automation controller is running (`kubectl get pods -n flux-system -l app=image-automation-controller`)
+  - [ ] ImageRepository resources are synchronized (`flux get images repository`)
+  - [ ] ImagePolicy resources are configured (`flux get images policy`)
+  - [ ] ImageUpdateAutomation is functioning (`flux get images update`)
+
+#### Image Automation Components
+
+The bootstrap process now includes the image automation controllers that enable:
+
+##### ImageRepository Sources
+- **Container Registry Monitoring**: Automatic discovery of new image tags
+- **Multi-Registry Support**: DockerHub, ECR, GCR, Harbor, and private registries
+- **Webhook Integration**: Real-time notifications for new image pushes
+
+##### ImagePolicy Configuration
+- **Semantic Versioning**: Automatic selection based on SemVer ranges
+- **Regex Pattern Matching**: Custom filtering for build tags and environments
+- **Numerical Ordering**: Timestamp or build number based selection
+
+##### ImageUpdateAutomation Features
+- **Git Integration**: Automatic commits when new images are detected
+- **Branch Protection**: Works with Git workflows and pull request processes
+- **Selective Updates**: Target specific files and applications for automation
 
 ## Installation Guide
 
@@ -178,12 +204,17 @@ helm version
 #### 2. Flux Bootstrap
 
 ```bash
-# Production bootstrap with GitLab integration
+# Production bootstrap with GitLab integration and Image Automation
 flux bootstrap git \
   --url=https://gitlab.com/worlddrknss/flux-infrastructure.git \
   --branch=main \
   --path=clusters/${CLUSTER_NAME} \
-  --token-auth
+  --token-auth \
+  --components-extra=image-reflector-controller,image-automation-controller
+
+# Verify all components are running
+flux get all
+kubectl get pods -n flux-system
 ```
 
 #### 3. Infrastructure Validation
