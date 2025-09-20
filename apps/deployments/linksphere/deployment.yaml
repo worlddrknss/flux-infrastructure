@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: linksphere-frontend
-  namespace: podinfo
+  namespace: production
 spec:
   replicas: 1
   selector:
@@ -29,7 +29,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: linksphere-backend
-  namespace: podinfo
+  namespace: production
 spec:
   replicas: 1
   selector:

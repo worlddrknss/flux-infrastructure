@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: postgres
-  namespace: podinfo
+  namespace: production
 spec:
   selector:
     app: postgres
@@ -15,7 +15,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: postgres-pvc
-  namespace: podinfo
+  namespace: production
 spec:
   accessModes:
     - ReadWriteOnce
@@ -28,7 +28,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres
-  namespace: podinfo
+  namespace: production
 spec:
   replicas: 1
   selector:
