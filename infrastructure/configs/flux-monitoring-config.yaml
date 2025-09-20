@@ -12,7 +12,7 @@ spec:
     matchNames:
       - flux-system
   endpoints:
-    - port: metrics
+    - port: http-prom
       interval: 30s
 ---
 apiVersion: monitoring.coreos.com/v1
@@ -28,7 +28,7 @@ spec:
     matchNames:
       - flux-system
   endpoints:
-    - port: metrics
+    - port: http-prom
       interval: 30s
 ---
 apiVersion: monitoring.coreos.com/v1
@@ -44,7 +44,7 @@ spec:
     matchNames:
       - flux-system
   endpoints:
-    - port: metrics
+    - port: http-prom
       interval: 30s
 ---
 apiVersion: monitoring.coreos.com/v1
@@ -60,7 +60,7 @@ spec:
     matchNames:
       - flux-system
   endpoints:
-    - port: metrics
+    - port: http-prom
       interval: 30s
 ---
 apiVersion: monitoring.coreos.com/v1
@@ -76,5 +76,22 @@ spec:
     matchNames:
       - flux-system
   endpoints:
-    - port: metrics
+    - port: http-prom
+      interval: 30s
+---
+# Optional: Notification controller
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: flux-notification-controller
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: notification-controller
+  namespaceSelector:
+    matchNames:
+      - flux-system
+  endpoints:
+    - port: http-prom
       interval: 30s

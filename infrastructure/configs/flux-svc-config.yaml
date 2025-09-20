@@ -8,9 +8,9 @@ metadata:
     app: kustomize-controller
 spec:
   ports:
-    - name: metrics
+    - name: http-prom
       port: 8080
-      targetPort: 8080
+      targetPort: http-prom
   selector:
     app: kustomize-controller
 ---
@@ -23,9 +23,9 @@ metadata:
     app: helm-controller
 spec:
   ports:
-    - name: metrics
+    - name: http-prom
       port: 8080
-      targetPort: 8080
+      targetPort: http-prom
   selector:
     app: helm-controller
 ---
@@ -38,9 +38,9 @@ metadata:
     app: source-controller
 spec:
   ports:
-    - name: metrics
+    - name: http-prom
       port: 8080
-      targetPort: 8080
+      targetPort: http-prom
   selector:
     app: source-controller
 ---
@@ -53,9 +53,9 @@ metadata:
     app: image-automation-controller
 spec:
   ports:
-    - name: metrics
+    - name: http-prom
       port: 8080
-      targetPort: 8080
+      targetPort: http-prom
   selector:
     app: image-automation-controller
 ---
@@ -68,8 +68,24 @@ metadata:
     app: image-reflector-controller
 spec:
   ports:
-    - name: metrics
+    - name: http-prom
       port: 8080
-      targetPort: 8080
+      targetPort: http-prom
   selector:
     app: image-reflector-controller
+---
+# Optional: Notification controller
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-controller-metrics
+  namespace: flux-system
+  labels:
+    app: notification-controller
+spec:
+  ports:
+    - name: http-prom
+      port: 8080
+      targetPort: http-prom
+  selector:
+    app: notification-controller
