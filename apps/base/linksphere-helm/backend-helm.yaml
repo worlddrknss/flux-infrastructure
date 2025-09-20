@@ -17,3 +17,4 @@ spec:
     image:
       repository: registry.gitlab.com/worlddrknss/linksphere/linksphere-backend
       tag: latest
+    envFromSecret: linksphere-backend-env
