@@ -2,21 +2,6 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: infra-network
-  namespace: flux-system
-spec:
-  interval: 10m
-  path: "./infrastructure/network"
-  prune: true
-  wait: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  timeout: 10m
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
   name: infra-namespaces
   namespace: flux-system
 spec:
@@ -32,20 +17,34 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: infra-repositories
+  name: infra-network
   namespace: flux-system
 spec:
   dependsOn:
     - name: infra-namespaces
+  interval: 10m
+  path: "./infrastructure/network"
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  timeout: 10m
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-repositories
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-network
   interval: 1h
   retryInterval: 1m
   timeout: 10m
   sourceRef:
     kind: GitRepository
-    name: flux-system
-  path: ./infrastructure/repositories
-  prune: true
-  wait: true
+    name: flux-syste
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -61,9 +60,46 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/controllers
+  path: ./infrastructure/base/controllers
   prune: true
   wait: true
+---
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-monitoring-controllers
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-network
+  interval: 1h
+  retryInterval: 2m
+  timeout: 10m
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/monitoring/controllers
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-monitoring-configs
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-monitoring-controllers
+  interval: 1h
+  retryInterval: 2m
+  timeout: 5m
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/monitoring/configs
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -79,6 +115,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/configs
+  path: ./infrastructure/base/configs
   prune: true
   wait: true

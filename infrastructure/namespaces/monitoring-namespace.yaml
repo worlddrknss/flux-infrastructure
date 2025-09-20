@@ -1,7 +1,7 @@
----
 apiVersion: v1
 kind: Namespace
 metadata:
   name: monitoring
   labels:
-    toolkit.fluxcd.io/tenant: sre-team
+    app.kubernetes.io/component: monitoring
+    pod-security.kubernetes.io/enforce: privileged
