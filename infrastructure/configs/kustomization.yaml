@@ -5,3 +5,4 @@ resources:
   - grafana-config.yaml
   - vault-config.yaml
   - cert-manager-config.yaml
+  - flux-monitoring-config.yaml

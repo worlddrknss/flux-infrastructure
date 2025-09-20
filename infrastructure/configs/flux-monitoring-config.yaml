@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: flux-kustomize-controller
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: kustomize-controller
+  namespaceSelector:
+    matchNames:
+      - flux-system
+  endpoints:
+    - port: http-metrics
+      interval: 30s
