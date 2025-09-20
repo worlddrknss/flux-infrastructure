@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: apps
+  name: deployment-namespaces
   namespace: flux-system
 spec:
   interval: 10m0s
@@ -12,7 +12,41 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./apps
+  path: ./apps/namespaces
+  prune: true
+  wait: false
+  timeout: 15m0s
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: deployment-repositories
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  dependsOn:
+    - name: deployment-namespaces
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/repositories
+  prune: true
+  wait: false
+  timeout: 15m0s
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: deployment-apps
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  dependsOn:
+    - name: deployment-repositories
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/deployments
   prune: true
   wait: false
   timeout: 15m0s

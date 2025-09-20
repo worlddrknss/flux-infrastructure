@@ -1,7 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - bitnami-oci-repo.yaml
-  - bitnami-repo.yaml
-  - stefanprodan-repo.yaml
-  - linksphere-repo.yaml
+  - cilium.yaml
+  - cert-manager-repo.yaml
+  - eso-repo.yaml
+  - hashicorp-repo.yaml
+  - ingress-nginx-repo.yaml
