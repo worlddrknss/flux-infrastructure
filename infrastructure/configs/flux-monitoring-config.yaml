@@ -1,3 +1,4 @@
+---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
@@ -21,3 +22,18 @@ spec:
           - notification-controller
           - image-automation-controller
           - image-reflector-controller
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kustomize-controller-metrics
+  namespace: flux-system
+  labels:
+    app: kustomize-controller
+spec:
+  ports:
+    - name: http-prom
+      port: 8080
+      targetPort: http-prom
+  selector:
+    app: kustomize-controller
