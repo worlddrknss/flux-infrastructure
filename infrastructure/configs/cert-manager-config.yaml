@@ -1,15 +1,14 @@
 ---
 apiVersion: cert-manager.io/v1
-kind: Issuer
+kind: ClusterIssuer
 metadata:
-  name: letsencrypt-issuer
-  namespace: cert-manager
+  name: letsencrypt-production
 spec:
   acme:
     email: cshowalter@skynetinc.tech
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
-      name: letsencrypt-issuer-key
+      name: letsencrypt-production-key
     solvers:
     - dns01:
         cloudflare:
