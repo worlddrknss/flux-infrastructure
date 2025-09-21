@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,7 +16,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: build-54 # {"$imagepolicy": "flux-system:linksphere-frontend:tag"}
+          image: registry.gitlab.com/worlddrknss/linksphere/linksphere-frontend:latest # {"$imagepolicy": "flux-system:linksphere-frontend:name"}
           resources:
             requests:
               cpu: "250m"
@@ -41,7 +42,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: build-54 # {"$imagepolicy": "flux-system:linksphere-backend:tag"}
+          image: registry.gitlab.com/worlddrknss/linksphere/linksphere-backend:latest # {"$imagepolicy": "flux-system:linksphere-backend:name"}
           envFrom:
             - secretRef:
                 name: linksphere-backend-env
