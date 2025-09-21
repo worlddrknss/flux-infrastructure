@@ -14,7 +14,23 @@ spec:
         name: FluxCD Bot
         email: fluxcd@worlddrknss.dev
       messageTemplate: |
-        chore(images): automated update by {{ .AutomationObject }} in {{ .ControllerNamespace }}
+        Automated image update
+
+        Automation name: {{ .AutomationObject }}
+
+        Files:
+        {{ range $filename, $_ := .Changed.FileChanges -}}
+        - {{ $filename }}
+        {{ end -}}
+
+        Objects:
+        {{ range $resource, $changes := .Changed.Objects -}}
+        - {{ $resource.Kind }} {{ $resource.Name }}
+          Changes:
+        {{- range $_, $change := $changes }}
+            - {{ $change.OldValue }} -> {{ $change.NewValue }}
+        {{ end -}}
+        {{ end -}}
   update:
     strategy: Setters
     path: ./apps/deployments
