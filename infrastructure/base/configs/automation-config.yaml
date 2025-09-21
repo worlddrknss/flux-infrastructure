@@ -9,12 +9,12 @@ spec:
     kind: GitRepository
     name: flux-system
   git:
-  commit:
-    author:
-      name: FluxCD Bot
-      email: fluxcd@worlddrknss.dev
-    messageTemplate: |
-      chore(images): automated update by {{ .AutomationObject }} in {{ .ControllerNamespace }}
+    commit:
+      author:
+        name: FluxCD Bot
+        email: fluxcd@worlddrknss.dev
+      messageTemplate: |
+        chore(images): automated update by {{ .AutomationObject }} in {{ .ControllerNamespace }}
   update:
     strategy: Setters
     path: ./apps/deployments
