@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: registry.gitlab.com/worlddrknss/linksphere/linksphere-frontend:latest # {"$imagepolicy": "flux-system:linksphere-frontend"}
+          image: registry.gitlab.com/worlddrknss/linksphere/linksphere-frontend:latest # {"$imagepolicy": "flux-system:linksphere-frontend:tag"}
           resources:
             requests:
               cpu: "250m"
@@ -42,7 +42,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: registry.gitlab.com/worlddrknss/linksphere/linksphere-backend:latest # {"$imagepolicy": "flux-system:linksphere-backend"}
+          image: registry.gitlab.com/worlddrknss/linksphere/linksphere-backend:latest # {"$imagepolicy": "flux-system:linksphere-backend:tag"}
           envFrom:
             - secretRef:
                 name: linksphere-backend-env
