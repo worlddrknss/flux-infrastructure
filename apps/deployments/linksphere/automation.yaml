@@ -13,8 +13,6 @@ spec:
       author:
         name: FluxCD Bot
         email: fluxcd@worlddrknss.dev
-      messageTemplate: |
-        chore(images): automated update by {{ .AutomationObject }} at {{ .Timestamp }}
   update:
     strategy: Setters
     path: ./apps/deployments
