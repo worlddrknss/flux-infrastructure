@@ -41,7 +41,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: registry.gitlab.com/worlddrknss/linksphere/linksphere-backend:build-55 # {"$imagepolicy": "flux-system:linksphere-backend"}
+          image: registry.gitlab.com/worlddrknss/linksphere/linksphere-backend:build-56 # {"$imagepolicy": "flux-system:linksphere-backend"}
           envFrom:
             - secretRef:
                 name: linksphere-backend-env
