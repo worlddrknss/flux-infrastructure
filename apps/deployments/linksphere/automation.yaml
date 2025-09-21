@@ -1,7 +1,7 @@
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImageUpdateAutomation
 metadata:
-  name: linksphere-automation
+  name: gitlab-automation
   namespace: flux-system
 spec:
   interval: 1m
@@ -17,4 +17,4 @@ spec:
         chore(images): update {{ .AutomationObject }} to {{ .LatestImage }}
   update:
     strategy: Setters
-    path: ./clusters/default
+    path: ./apps/deployments
