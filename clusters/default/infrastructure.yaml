@@ -17,40 +17,6 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: infra-network
-  namespace: flux-system
-spec:
-  dependsOn:
-    - name: infra-namespaces
-  interval: 10m
-  path: "./infrastructure/network/base"
-  prune: true
-  wait: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  timeout: 10m
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: infra-network-policies
-  namespace: flux-system
-spec:
-  dependsOn:
-    - name: infra-network
-  interval: 10m
-  path: "./infrastructure/network/policies"
-  prune: true
-  wait: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  timeout: 10m
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
   name: infra-repositories
   namespace: flux-system
 spec:
