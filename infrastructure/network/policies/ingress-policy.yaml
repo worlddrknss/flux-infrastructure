@@ -6,7 +6,7 @@ metadata:
 spec:
   endpointSelector:
     matchLabels:
-      app: allow-ingress-from-nginx
+      nginx: allow-ingress
   ingress:
   - fromEndpoints:
     - matchLabels:
