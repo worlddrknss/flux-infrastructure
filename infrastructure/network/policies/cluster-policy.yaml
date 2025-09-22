@@ -1,3 +1,5 @@
+---
+# Deny all ingress traffic cluster-wide, allow all egress by default.
 apiVersion: cilium.io/v2
 kind: CiliumClusterwideNetworkPolicy
 metadata:
@@ -7,8 +9,9 @@ spec:
   ingress: []
   egress:
   - toEntities:
-    - all           # allow ALL egress (pods, DNS, Internet, external IPs)
+    - all
 ---
+# Allow DNS traffic to kube-dns from all pods cluster-wide.
 apiVersion: cilium.io/v2
 kind: CiliumClusterwideNetworkPolicy
 metadata:
@@ -27,6 +30,7 @@ spec:
       - port: "53"
         protocol: TCP
 ---
+# Allow monitoring and security namespaces to access all other pods cluster-wide.
 apiVersion: cilium.io/v2
 kind: CiliumClusterwideNetworkPolicy
 metadata:
@@ -40,6 +44,7 @@ spec:
     - matchLabels:
         io.kubernetes.pod.namespace: security
 ---
+# Allow kubelet to perform health checks on all pods cluster-wide.
 apiVersion: cilium.io/v2
 kind: CiliumClusterwideNetworkPolicy
 metadata:
@@ -50,6 +55,7 @@ spec:
   - fromEntities:
     - host
 ---
+# Allow all traffic to and from Flux controllers cluster-wide.
 apiVersion: cilium.io/v2
 kind: CiliumClusterwideNetworkPolicy
 metadata:
