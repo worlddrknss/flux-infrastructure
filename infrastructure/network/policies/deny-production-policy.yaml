@@ -7,5 +7,3 @@ spec:
   endpointSelector: {}   # applies to all pods in namespace
   ingress:
   - fromEndpoints: []    # deny all ingress
-  egress:
-  - toEndpoints: []      # deny all egress
