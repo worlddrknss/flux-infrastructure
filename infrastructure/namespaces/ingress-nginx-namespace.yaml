@@ -4,6 +4,7 @@ kind: Namespace
 metadata:
   name: ingress-nginx
   labels:
+    toolkit.fluxcd.io/tenant: infrastucture
     app.kubernetes.io/component: ingress
     pod-security.kubernetes.io/enforce: privileged
     pod-security.kubernetes.io/audit: privileged

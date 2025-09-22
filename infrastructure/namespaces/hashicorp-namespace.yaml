@@ -4,6 +4,7 @@ kind: Namespace
 metadata:
   name: hashicorp
   labels:
+    toolkit.fluxcd.io/tenant: infrastucture
     app.kubernetes.io/component: vault
     pod-security.kubernetes.io/enforce: privileged
     pod-security.kubernetes.io/audit: privileged

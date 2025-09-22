@@ -4,7 +4,7 @@ kind: Namespace
 metadata:
   name: cert-manager
   labels:
-    toolkit.fluxcd.io/tenant: sre-team
+    toolkit.fluxcd.io/tenant: infrastucture
     app.kubernetes.io/component: cert-manager
     pod-security.kubernetes.io/enforce: privileged
     pod-security.kubernetes.io/audit: privileged

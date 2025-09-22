@@ -4,6 +4,7 @@ kind: Namespace
 metadata:
   name: external-secrets
   labels:
+    toolkit.fluxcd.io/tenant: infrastucture
     app.kubernetes.io/component: external-secrets
     pod-security.kubernetes.io/enforce: privileged
     pod-security.kubernetes.io/audit: privileged
