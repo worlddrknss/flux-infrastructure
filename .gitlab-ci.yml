@@ -5,9 +5,6 @@ stages:
 sast:
   stage: test
 
-sast-iac:
-  stage: test
-
 secret_detection:
   stage: secret-detection
 
