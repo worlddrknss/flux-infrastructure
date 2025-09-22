@@ -3,5 +3,4 @@ kind: Kustomization
 resources:
   - bitnami-oci-repo.yaml
   - bitnami-repo.yaml
-  - stefanprodan-repo.yaml
   - linksphere-repo.yaml
