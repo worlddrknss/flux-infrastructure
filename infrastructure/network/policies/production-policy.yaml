@@ -7,7 +7,8 @@ spec:
   endpointSelector: {}
   ingress: []    # deny all ingress
   egress:
-  - {}           # allow all egress
+    toEntities:
+    - all
 ---
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
