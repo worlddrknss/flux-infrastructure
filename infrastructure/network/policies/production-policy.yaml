@@ -1,17 +1,4 @@
 ---
-# This policy denies all ingress traffic to pods in the 'production' namespace
-apiVersion: cilium.io/v2
-kind: CiliumNetworkPolicy
-metadata:
-  name: deny-ingress-production
-  namespace: production
-spec:
-  endpointSelector: {}
-  ingress: []     # deny all ingress
-  egress:
-  - toEntities:
-    - all         # allow all egress (pods, DNS, Internet, external IPs)
----
 # This policy allows ingress traffic from the 'monitoring' and 'security' namespaces to pods in the 'production' namespace
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy

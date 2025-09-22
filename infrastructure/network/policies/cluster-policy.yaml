@@ -1,0 +1,20 @@
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: clusterwide-deny-ingress
+spec:
+  endpointSelector:
+    matchExpressions:
+    - key: io.kubernetes.pod.namespace
+      operator: NotIn
+      values:
+        - flux-system
+        - kube-node-lease
+        - kube-public
+        - kube-system
+        - monitoring
+        - security
+  ingress: []   # deny all ingress
+  egress:
+  - toEntities:
+    - all       # allow all egress for now
