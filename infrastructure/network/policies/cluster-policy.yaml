@@ -19,6 +19,8 @@ metadata:
 spec:
   endpointSelector: {}
   egress:
+  - toEntities:
+    - cluster
   - toEndpoints:
     - matchLabels:
         k8s-app: kube-dns
