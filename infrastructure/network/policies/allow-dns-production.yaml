@@ -6,12 +6,13 @@ metadata:
 spec:
   endpointSelector: {}
   egress:
-  - toEndpoints:
-    - matchLabels:
-        k8s-app: kube-dns
-    toPorts:
-    - ports:
-      - port: "53"
-        protocol: UDP
-      - port: "53"
-        protocol: TCP
+    - toEndpoints:
+        - matchLabels:
+            k8s-app: kube-dns
+            io.kubernetes.pod.namespace: kube-system
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP

@@ -1,7 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  # - deny-production-policy.yaml
-  # - allow-dns-production.yaml
-  # - allow-ingress-production-policy.yaml
-  # - allow-linksphere-postgress-policy.yaml
+  - deny-production-policy.yaml
+  - allow-dns-production.yaml
+  - allow-ingress-production-policy.yaml
+  - allow-linksphere-postgres-policy.yaml

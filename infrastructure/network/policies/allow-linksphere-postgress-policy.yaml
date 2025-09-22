@@ -1,22 +1,19 @@
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
-  name: allow-linksphere-postgres
+  name: linksphere-to-postgres
   namespace: production
 spec:
-  # Target Postgres pods
   endpointSelector:
     matchLabels:
       app: postgres
   ingress:
-  - fromEndpoints:
-    - matchLabels:
-        app: linksphere-backend
-        io.kubernetes.pod.namespace: production
-    - matchLabels:
-        app: linksphere-backend-helm
-        io.kubernetes.pod.namespace: production
-    toPorts:
-    - ports:
-      - port: "5432"
-        protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            app: linksphere-backend
+        - matchLabels:
+            app: linksphere-backend-helm
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
