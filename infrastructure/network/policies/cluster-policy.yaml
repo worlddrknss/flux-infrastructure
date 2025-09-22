@@ -1,3 +1,40 @@
+
+## Cluster-wide Cilium Network Policy: deny ingress by default
+#
+# Purpose:
+#   This CiliumClusterwideNetworkPolicy enforces a default-deny ingress posture for most
+#   namespaces in the cluster while allowing egress. It's intended as a safety-first
+#   baseline to reduce the attack surface by preventing inbound traffic to pods unless
+#   explicitly allowed by other policies.
+#
+# Behavior summary:
+#   - Applies to all endpoints whose pod namespace is NOT one of the exempt namespaces.
+#   - Denies all ingress (empty ingress list) for matched endpoints.
+#   - Allows all egress to entities for now (this can be tightened later).
+#
+# Exempt namespaces:
+#   - flux-system (GitOps controllers and flux components)
+#   - kube-node-lease
+#   - kube-public
+#   - kube-system (core Kubernetes system components)
+#   - monitoring (monitoring stack components)
+#   - security (security tooling namespace)
+#
+# Usage and cautions:
+#   - This policy is intentionally broad and can break inbound connectivity for workloads
+#     (e.g., services, ingress controllers, and inter-pod requests) unless there are
+#     explicit Cilium/CNP policies that permit traffic. Review and create allow-policies
+#     for required traffic (e.g., kube-dns, service mesh, ingress controllers).
+#   - If you operate a multi-tenant cluster, consider narrowing endpointSelector
+#     matchExpressions or using labels to target only certain workloads instead of
+#     relying purely on namespace exclusions.
+#   - Test changes in a non-production cluster first. Rolling out a default-deny policy
+#     cluster-wide can cause outages if missing allow rules.
+#
+# Maintainers:
+#   - Update this file when adding exempt namespaces or changing the default posture.
+#   - Link related allow policies under the same folder to manage exceptions.
+---
 apiVersion: cilium.io/v2
 kind: CiliumClusterwideNetworkPolicy
 metadata:

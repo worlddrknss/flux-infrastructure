@@ -1,5 +1,25 @@
+## Production namespace allow rules
+#
+# Purpose:
+#   Provide explicit allow rules for the `production` namespace so that required
+#   tooling (monitoring, security, and ingress) can reach production workloads when
+#   a default-deny policy is present cluster-wide.
+#
+# Behavior summary:
+#   - First document: allows ingress from pods in the `monitoring` and `security`
+#     namespaces to any pod in `production`.
+#   - Second document: allows ingress from pods in the `ingress-nginx` namespace
+#     to pods in `production` labeled `nginx: allow-ingress`.
+#
+# Usage and cautions:
+#   - Keep rules as narrow as practical: prefer label- or port-scoped policies over
+#     broad namespace-based allowances where possible.
+#   - Review both policies when adding new monitoring/security components or when
+#     changing labels used to mark ingress receivers.
+#
+# Maintainers:
+#   - Update these documents when adding new dependencies for production workloads.
 ---
-# This policy allows ingress traffic from the 'monitoring' and 'security' namespaces to pods in the 'production' namespace
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -14,7 +34,6 @@ spec:
     - matchLabels:
         io.kubernetes.pod.namespace: security
 ---
-# This policy allows ingress traffic from the 'ingress-nginx' namespace to pods labeled 'nginx: allow-ingress' in the 'production' namespace
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
