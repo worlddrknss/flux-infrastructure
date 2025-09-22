@@ -8,4 +8,4 @@ spec:
   ingress: []     # deny-all ingress
   egress:
   - toEntities:
-    - all         # allow-all egress (pods, DNS, external IPs, Internet)
+    - {}         # allow-all egress (pods, DNS, external IPs, Internet)
