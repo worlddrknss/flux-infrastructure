@@ -1,28 +1,6 @@
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
-  name: in-linksphere
-  namespace: production
-spec:
-  endpointSelector:
-    matchExpressions:
-      - key: app
-        operator: In
-        values:
-          - linksphere-backend
-          - linksphere-backend-helm
-  ingress:
-    - fromEndpoints:
-        - matchLabels:
-            app: postgres
-      toPorts:
-        - ports:
-            - port: "5432"
-              protocol: TCP
----
-apiVersion: cilium.io/v2
-kind: CiliumNetworkPolicy
-metadata:
   name: in-postgres
   namespace: production
 spec:
@@ -33,8 +11,10 @@ spec:
     - fromEndpoints:
         - matchLabels:
             app: linksphere-backend
+            io.kubernetes.pod.namespace: production
         - matchLabels:
             app: linksphere-backend-helm
+            io.kubernetes.pod.namespace: production
       toPorts:
         - ports:
             - port: "5432"
