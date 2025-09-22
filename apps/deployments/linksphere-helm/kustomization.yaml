@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - backend-helm.yaml
   - frontend-helm.yaml
+  - eso-test.yaml
