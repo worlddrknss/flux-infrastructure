@@ -5,7 +5,8 @@ metadata:
   namespace: production
 spec:
   endpointSelector: {}
-  ingress: []     # deny-all ingress
+  ingress:
+    - {}     # deny-all ingress
   egress:
   - toEntities:
     - {}         # allow-all egress (pods, DNS, external IPs, Internet)
