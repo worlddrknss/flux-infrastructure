@@ -4,3 +4,4 @@ resources:
   - deny-production-policy.yaml
   - allow-dns-production.yaml
   - allow-ingress-production-policy.yaml
+  - allow-linksphere-postgress-policy.yaml
