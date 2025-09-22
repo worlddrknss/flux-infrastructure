@@ -6,3 +6,4 @@ resources:
   - eso-repo.yaml
   - hashicorp-repo.yaml
   - ingress-nginx-repo.yaml
+  - weave-dashboard-repo.yaml
