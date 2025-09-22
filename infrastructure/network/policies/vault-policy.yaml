@@ -1,0 +1,51 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-production-to-vault
+  namespace: production
+spec:
+  endpointSelector: {}
+  egress:
+  - toEndpoints:
+    - matchLabels:
+        app.kubernetes.io/name: vault
+        io.kubernetes.pod.namespace: hashicorp
+    toPorts:
+    - ports:
+      - port: "8200"
+        protocol: TCP
+---
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: allow-hashicorp-external-secrets
+spec:
+  endpointSelector: {}
+  ingress:
+  - fromEndpoints:
+    - matchLabels:
+        io.kubernetes.pod.namespace: hashicorp
+    - matchLabels:
+        io.kubernetes.pod.namespace: external-secrets
+  egress:
+  - toEndpoints:
+    - matchLabels:
+        io.kubernetes.pod.namespace: hashicorp
+    - matchLabels:
+        io.kubernetes.pod.namespace: external-secrets
+---
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: allow-vault-injector
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: vault-agent-injector
+  egress:
+  - toEntities:
+    - kube-apiserver   # injector talks to Kubernetes API server
+  - toEndpoints:
+    - matchLabels:
+        io.kubernetes.pod.namespace: production   # allow injector → production pods

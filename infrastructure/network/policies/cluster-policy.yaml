@@ -49,3 +49,16 @@ spec:
   ingress:
   - fromEntities:
     - host
+---
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: allow-flux
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/part-of: flux   # matches all Flux controllers
+  ingress:
+  - {}   # allow all ingress to flux-system pods
+  egress:
+  - {}   # allow all egress from flux-system pods
