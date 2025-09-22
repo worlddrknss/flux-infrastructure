@@ -1,0 +1,13 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-ingress-from-nginx
+  namespace: production
+spec:
+  endpointSelector:
+    matchLabels:
+      app: allow-ingress-from-nginx
+  ingress:
+  - fromEndpoints:
+    - matchLabels:
+        io.kubernetes.pod.namespace: ingress-nginx

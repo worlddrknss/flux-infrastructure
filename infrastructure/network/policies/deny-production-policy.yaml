@@ -1,0 +1,11 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: default-deny
+  namespace: production
+spec:
+  endpointSelector: {}   # applies to all pods in namespace
+  ingress:
+  - fromEndpoints: []    # deny all ingress
+  egress:
+  - toEndpoints: []      # deny all egress
