@@ -1,11 +1,12 @@
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
-  name: default-deny
+  name: allow-all
   namespace: production
 spec:
   endpointSelector: {}
-  ingress: # deny all ingress traffic
-  - {}
-  egress: # allow egress traffic to anywhere
-  - {}
+  ingress:
+  - fromEndpoints:
+    - {}   # allow from all endpoints (all pods in cluster)
+  egress:
+  - {}     # allow egress everywhere (pods, CIDRs, DNS, Internet)
