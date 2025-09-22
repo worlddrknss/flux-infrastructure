@@ -4,6 +4,8 @@ metadata:
   name: default-deny
   namespace: production
 spec:
-  endpointSelector: {}   # applies to all pods in namespace
-  ingress:
-  - fromEndpoints: []    # deny all ingress
+  endpointSelector: {}
+  ingress: # deny all ingress traffic
+  - {}
+  egress: # allow egress traffic to anywhere
+  - {}
