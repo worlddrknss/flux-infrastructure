@@ -1,6 +1,6 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: podinfo
+  name: demo-namespace
   labels:
     toolkit.fluxcd.io/tenant: dev-team
