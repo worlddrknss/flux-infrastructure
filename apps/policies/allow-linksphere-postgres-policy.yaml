@@ -12,9 +12,6 @@ spec:
         - matchLabels:
             app: linksphere-backend
             io.kubernetes.pod.namespace: production
-        - matchLabels:
-            app: linksphere-backend-helm
-            io.kubernetes.pod.namespace: production
       toPorts:
         - ports:
             - port: "5432"
