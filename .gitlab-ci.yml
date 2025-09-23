@@ -20,7 +20,7 @@ secret_detection:
 # -----------------------------
 
 validate:
-  image: hashicorp/terraform:1.9.5
+  image: hashicorp/terraform:1.13
   stage: validate
   before_script:
     - export AWS_ROLE_ARN=$AWS_ROLE_ARN
