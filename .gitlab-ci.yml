@@ -83,24 +83,24 @@ apply:
   dependencies:
     - plan
   needs: ["plan"]
-  when: manual          # 🚨 always manual
+  when: manual
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
       changes:
         - scripts/terraform/**/*
-      when: manual      # only show when changes exist
+      when: manual
 
 destroy:
   extends: .terraform-job
   stage: destroy
   script:
     - terraform destroy -auto-approve
-  when: manual          # 🚨 always manual
+  when: manual
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
       changes:
         - scripts/terraform/**/*
-      when: manual      # only show when changes exist
+      when: manual
 
 # -----------------------------
 # GitLab Security Templates
