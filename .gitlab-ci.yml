@@ -56,7 +56,7 @@ validate:
   extends: .terraform-job
   stage: validate
   script:
-    - terraform fmt -check
+    - terraform fmt -recursive
     - terraform validate
   rules:
     - changes:
