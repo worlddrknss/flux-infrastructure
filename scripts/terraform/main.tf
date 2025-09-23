@@ -1,3 +1,4 @@
+# File: scripts/terraform/main.tf
 terraform {
   backend "s3" {}
   required_providers {
