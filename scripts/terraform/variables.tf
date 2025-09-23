@@ -7,5 +7,5 @@ variable "region" {
 variable "cluster_name" {
   description = "EKS cluster name"
   type        = string
-  default     = "gitlab-tofu-eks"
+  default     = "gitlab-tofu-flux-eks"
 }
