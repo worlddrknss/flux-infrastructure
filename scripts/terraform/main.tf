@@ -3,7 +3,7 @@ terraform {
   required_providers {
     aws = {
       source = "hashicorp/aws"
-      version = "~> 5.0"
+      version = "~> 6.0"
     }
   }
 }
@@ -19,14 +19,14 @@ data "aws_availability_zones" "available" {}
 # -------------------------
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
-  version = "~> 5.16"
+  version = "~> 6.2"
 
   name = "${var.cluster_name}-vpc"
-  cidr = "10.0.0.0/16"
+  cidr = "10.123.0.0/16"
 
   azs = slice(data.aws_availability_zones.available.names, 0, 3)
-  private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-  public_subnets = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
+  private_subnets = ["10.123.0.0/24", "10.123.1.0/24", "10.123.2.0/24"]
+  public_subnets = ["10.123.64.0/18", "10.123.128.0/18", "10.123.192.0/18"]
 
   enable_nat_gateway = true
   single_nat_gateway = true
@@ -50,7 +50,18 @@ module "eks" {
   version = "~> 21.0"
 
   name = var.cluster_name
-  kubernetes_version = "1.31"
+  kubernetes_version = "1.33"
+
+  addons = {
+    coredns = {}
+    eks-pod-identity-agent = {
+      before_compute = true
+    }
+    kube-proxy = {}
+    vpc-cni = {
+      before_compute = true
+    }
+  }
 
   vpc_id = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
@@ -64,7 +75,7 @@ module "eks" {
       desired_size = 3
       max_size = 3
       min_size = 1
-      instance_types = ["t3.large"]
+      instance_types = ["t3.xlarge"]
       capacity_type = "ON_DEMAND"
     }
   }
