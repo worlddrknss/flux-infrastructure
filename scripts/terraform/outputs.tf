@@ -14,6 +14,7 @@ output "oidc_provider" {
 }
 
 output "kubeconfig" {
-  value = module.eks.kubeconfig
-  sensitive = true
+  description = "Raw kubeconfig to access the EKS cluster"
+  value       = module.eks.kubeconfig
+  sensitive   = true
 }
