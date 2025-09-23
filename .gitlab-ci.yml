@@ -59,7 +59,8 @@ validate:
     - terraform fmt -recursive
     - terraform validate
   rules:
-    - changes:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      changes:
         - scripts/terraform/**/*
     - when: never
 
