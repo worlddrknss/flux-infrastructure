@@ -8,6 +8,7 @@ stages:
 
 variables:
   TF_ROOT: "scripts/terraform"
+  TF_STATE_KEY: "env/${CI_PROJECT_NAME}/${CI_COMMIT_REF_SLUG}/${CI_PROJECT_NAME}.tfstate"
 
 sast:
   stage: test
