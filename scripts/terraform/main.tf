@@ -1,6 +1,10 @@
 # File: scripts/terraform/main.tf
+# Update dynamodb_table to use_lockfile in S3 backend config
 terraform {
-  backend "s3" {}
+  backend "s3" {
+    encrypt    = true
+    use_lockfile = true
+  }
   required_providers {
     aws = {
       source  = "hashicorp/aws"

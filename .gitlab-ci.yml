@@ -45,10 +45,7 @@ secret_detection:
       terraform init \
         -backend-config="bucket=$TF_STATE_BUCKET" \
         -backend-config="key=$TF_STATE_KEY" \
-        -backend-config="region=$TF_STATE_REGION" \
-        -backend-config="dynamodb_table=$TF_STATE_LOCK_TABLE" \
-        -backend-config="encrypt=true"
-
+        -backend-config="region=$TF_STATE_REGION"
 # -----------------------------
 # Terraform Jobs
 # -----------------------------
