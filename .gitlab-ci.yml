@@ -16,12 +16,12 @@ secret_detection:
   stage: secret-detection
 
 # -----------------------------
-# Terraform Jobs
+# Terraform Job Template
 # -----------------------------
-
-validate:
-  image: hashicorp/terraform:1.13
-  stage: validate
+.terraform-job:
+  image:
+    name: hashicorp/terraform:1.13.0
+    entrypoint: ["/usr/bin/env", "sh", "-c"]   # reset entrypoint so GitLab can run scripts normally
   before_script:
     - export AWS_ROLE_ARN=$AWS_ROLE_ARN
     - export AWS_WEB_IDENTITY_TOKEN_FILE=$CI_JOB_JWT_FILE
@@ -33,6 +33,13 @@ validate:
         -backend-config="region=$TF_STATE_REGION" \
         -backend-config="dynamodb_table=$TF_STATE_LOCK_TABLE" \
         -backend-config="encrypt=true"
+
+# -----------------------------
+# Terraform Jobs
+# -----------------------------
+validate:
+  extends: .terraform-job
+  stage: validate
   script:
     - cd "$TF_ROOT"
     - terraform fmt -check
@@ -43,19 +50,8 @@ validate:
     - when: never
 
 plan:
-  image: hashicorp/terraform:1.9.5
+  extends: .terraform-job
   stage: plan
-  before_script:
-    - export AWS_ROLE_ARN=$AWS_ROLE_ARN
-    - export AWS_WEB_IDENTITY_TOKEN_FILE=$CI_JOB_JWT_FILE
-    - aws sts get-caller-identity
-    - cd "$TF_ROOT"
-    - terraform init \
-        -backend-config="bucket=$TF_STATE_BUCKET" \
-        -backend-config="key=$TF_STATE_KEY" \
-        -backend-config="region=$TF_STATE_REGION" \
-        -backend-config="dynamodb_table=$TF_STATE_LOCK_TABLE" \
-        -backend-config="encrypt=true"
   script:
     - cd "$TF_ROOT"
     - terraform plan -out=tfplan
@@ -67,19 +63,8 @@ plan:
     - validate
 
 apply:
-  image: hashicorp/terraform:1.9.5
+  extends: .terraform-job
   stage: apply
-  before_script:
-    - export AWS_ROLE_ARN=$AWS_ROLE_ARN
-    - export AWS_WEB_IDENTITY_TOKEN_FILE=$CI_JOB_JWT_FILE
-    - aws sts get-caller-identity
-    - cd "$TF_ROOT"
-    - terraform init \
-        -backend-config="bucket=$TF_STATE_BUCKET" \
-        -backend-config="key=$TF_STATE_KEY" \
-        -backend-config="region=$TF_STATE_REGION" \
-        -backend-config="dynamodb_table=$TF_STATE_LOCK_TABLE" \
-        -backend-config="encrypt=true"
   script:
     - cd "$TF_ROOT"
     - terraform apply -auto-approve tfplan
@@ -88,19 +73,8 @@ apply:
   when: manual
 
 destroy:
-  image: hashicorp/terraform:1.9.5
+  extends: .terraform-job
   stage: destroy
-  before_script:
-    - export AWS_ROLE_ARN=$AWS_ROLE_ARN
-    - export AWS_WEB_IDENTITY_TOKEN_FILE=$CI_JOB_JWT_FILE
-    - aws sts get-caller-identity
-    - cd "$TF_ROOT"
-    - terraform init \
-        -backend-config="bucket=$TF_STATE_BUCKET" \
-        -backend-config="key=$TF_STATE_KEY" \
-        -backend-config="region=$TF_STATE_REGION" \
-        -backend-config="dynamodb_table=$TF_STATE_LOCK_TABLE" \
-        -backend-config="encrypt=true"
   script:
     - cd "$TF_ROOT"
     - terraform destroy -auto-approve
