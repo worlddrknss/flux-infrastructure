@@ -1,12 +1,71 @@
 stages:
   - test
   - secret-detection
+  - validate
+  - plan
+  - apply
+  - destroy
+
+variables:
+  TF_ROOT: "scripts/terraform"
 
 sast:
   stage: test
 
 secret_detection:
   stage: secret-detection
+
+default:
+  image: hashicorp/terraform:1.9.5
+  before_script:
+    # Export GitLab OIDC token for AWS STS
+    - export AWS_ROLE_ARN=$AWS_ROLE_ARN
+    - export AWS_WEB_IDENTITY_TOKEN_FILE=$CI_JOB_JWT_FILE
+    # Confirm identity (debug)
+    - aws sts get-caller-identity
+    # Terraform init with S3 backend + DynamoDB lock
+    - cd "$TF_ROOT"
+    - terraform init \
+        -backend-config="bucket=$TF_STATE_BUCKET" \
+        -backend-config="key=$TF_STATE_KEY" \
+        -backend-config="region=$TF_STATE_REGION" \
+        -backend-config="dynamodb_table=$TF_STATE_LOCK_TABLE" \
+        -backend-config="encrypt=true"
+
+
+validate:
+  stage: validate
+  script:
+   - terraform fmt -check
+   - terraform validate
+  rules:
+    - changes:
+        - scripts/terraform/**/*
+    - when: never
+
+plan:
+  stage: plan
+  script:
+    - terraform plan -out=tfplan
+  dependencies:
+    - validate
+  artifacts:
+    paths:
+      - $TF_ROOT/tfplan
+
+apply:
+  stage: apply
+  script:
+    - terraform apply -auto-approve tfplan
+  dependencies:
+    - plan
+  when: manual
+
+destroy:
+  stage: destroy
+  script:
+    - terraform destroy -auto-approve
+  when: manual
 
 include:
   - template: Security/SAST.gitlab-ci.yml
