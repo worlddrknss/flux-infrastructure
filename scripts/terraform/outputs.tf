@@ -13,7 +13,7 @@ output "oidc_provider" {
   value       = module.eks.oidc_provider
 }
 
-output "kubeconfig_filename" {
-  description = "Generated kubeconfig file"
-  value       = module.eks.kubeconfig_filename
+output "kubeconfig" {
+  value = module.eks.kubeconfig
+  sensitive = true
 }
