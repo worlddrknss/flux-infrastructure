@@ -56,7 +56,6 @@ validate:
   extends: .terraform-job
   stage: validate
   script:
-    - cd "$TF_ROOT"
     - terraform fmt -check
     - terraform validate
   rules:
@@ -68,7 +67,6 @@ plan:
   extends: .terraform-job
   stage: plan
   script:
-    - cd "$TF_ROOT"
     - terraform plan -out=tfplan
   artifacts:
     paths:
@@ -81,7 +79,6 @@ apply:
   extends: .terraform-job
   stage: apply
   script:
-    - cd "$TF_ROOT"
     - terraform apply -auto-approve tfplan
   dependencies:
     - plan
@@ -91,7 +88,6 @@ destroy:
   extends: .terraform-job
   stage: destroy
   script:
-    - cd "$TF_ROOT"
     - terraform destroy -auto-approve
   when: manual
 
