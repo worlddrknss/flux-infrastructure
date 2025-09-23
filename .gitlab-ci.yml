@@ -24,9 +24,11 @@ secret_detection:
     entrypoint: ["/usr/bin/env", "sh", "-c"]
   id_tokens:
     GITLAB_OIDC_TOKEN:
-      aud: https://gitlab.com   # ✅ must match AWS IAM trust policy audience
+      aud: https://gitlab.com   # must match IAM trust policy
   before_script:
+    # Install AWS CLI
     - apk add --no-cache aws-cli
+    # Assume AWS IAM role using GitLab OIDC
     - >
       aws_sts_output=$(aws sts assume-role-with-web-identity \
         --role-arn "$AWS_ROLE_ARN" \
@@ -38,7 +40,9 @@ secret_detection:
     - export $(printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s" $aws_sts_output)
     - aws sts get-caller-identity
     - cd "$TF_ROOT"
-    - terraform init \
+    # ✅ Use block style instead of backslashes to avoid line-continuation bugs
+    - |
+      terraform init \
         -backend-config="bucket=$TF_STATE_BUCKET" \
         -backend-config="key=$TF_STATE_KEY" \
         -backend-config="region=$TF_STATE_REGION" \
