@@ -15,17 +15,12 @@ sast:
 secret_detection:
   stage: secret-detection
 
-default:
-  image: hashicorp/terraform:1.9.5
+.terraform-job:
   before_script:
-    # Export GitLab OIDC token for AWS STS
     - export AWS_ROLE_ARN=$AWS_ROLE_ARN
     - export AWS_WEB_IDENTITY_TOKEN_FILE=$CI_JOB_JWT_FILE
-    # Confirm identity (debug)
     - aws sts get-caller-identity
-    # Move into Terraform code directory
     - cd "$TF_ROOT"
-    # Terraform init with S3 backend + DynamoDB lock
     - terraform init \
         -backend-config="bucket=$TF_STATE_BUCKET" \
         -backend-config="key=$TF_STATE_KEY" \
@@ -34,6 +29,7 @@ default:
         -backend-config="encrypt=true"
 
 validate:
+  extends: .terraform-job
   stage: validate
   script:
     - terraform fmt -check
@@ -44,15 +40,17 @@ validate:
     - when: never
 
 plan:
+  extends: .terraform-job
   stage: plan
   script:
     - terraform plan -out=tfplan
   artifacts:
     paths:
-      - tfplan
+      - scripts/terraform/tfplan
     expire_in: 1h
 
 apply:
+  extends: .terraform-job
   stage: apply
   script:
     - terraform apply -auto-approve tfplan
@@ -61,6 +59,7 @@ apply:
   when: manual
 
 destroy:
+  extends: .terraform-job
   stage: destroy
   script:
     - terraform destroy -auto-approve
