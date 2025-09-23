@@ -61,7 +61,6 @@ validate:
     - if: '$CI_COMMIT_BRANCH == "main"'
       changes:
         - scripts/terraform/**/*
-    - when: manual   # fallback → job always available manually
 
 plan:
   extends: .terraform-job
@@ -77,7 +76,6 @@ plan:
     - if: '$CI_COMMIT_BRANCH == "main"'
       changes:
         - scripts/terraform/**/*
-    - when: manual   # fallback → manual trigger if auto condition not met
 
 apply:
   extends: .terraform-job
@@ -87,18 +85,24 @@ apply:
   dependencies:
     - plan
   needs: ["plan"]
-  when: manual       # 🚨 always manual
+  when: manual          # 🚨 always manual
   rules:
-    - when: manual   # job always appears, never auto-run
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      changes:
+        - scripts/terraform/**/*
+      when: manual      # only show when changes exist
 
 destroy:
   extends: .terraform-job
   stage: destroy
   script:
     - terraform destroy -auto-approve
-  when: manual       # 🚨 always manual
+  when: manual          # 🚨 always manual
   rules:
-    - when: manual   # job always appears, never auto-run
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      changes:
+        - scripts/terraform/**/*
+      when: manual      # only show when changes exist
 
 # -----------------------------
 # GitLab Security Templates
