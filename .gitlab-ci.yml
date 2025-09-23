@@ -40,7 +40,6 @@ secret_detection:
     - export $(printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s" $aws_sts_output)
     - aws sts get-caller-identity
     - cd "$TF_ROOT"
-    # ✅ Use block style instead of backslashes to avoid line-continuation bugs
     - |
       terraform init \
         -backend-config="bucket=$TF_STATE_BUCKET" \
@@ -62,7 +61,6 @@ validate:
     - if: '$CI_COMMIT_BRANCH == "main"'
       changes:
         - scripts/terraform/**/*
-    - when: never
 
 plan:
   extends: .terraform-job
@@ -73,8 +71,7 @@ plan:
     paths:
       - scripts/terraform/tfplan
     expire_in: 1h
-  dependencies:
-    - validate
+  needs: ["validate"]   # ensures plan waits for validate and runs only if it succeeded
 
 apply:
   extends: .terraform-job
@@ -83,6 +80,7 @@ apply:
     - terraform apply -auto-approve tfplan
   dependencies:
     - plan
+  needs: ["plan"]
   when: manual
 
 destroy:
