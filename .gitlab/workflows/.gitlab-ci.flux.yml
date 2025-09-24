@@ -30,7 +30,7 @@ flux-bootstrap:
         --owner="$CI_PROJECT_NAMESPACE" \
         --repository="$CI_PROJECT_NAME" \
         --branch=main \
-        --path=flux/clusters/${EKS_CLUSTER_NAME} \
+        --path=clusters/${EKS_CLUSTER_NAME} \
         --token-auth
   rules:
     - when: manual
