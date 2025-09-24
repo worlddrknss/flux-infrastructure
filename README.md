@@ -298,7 +298,7 @@ spec:
 - **Authentication**: Kubernetes auth method, OIDC integration
 - **Policies**: Fine-grained access control with Vault policies
 - **High Availability**: Multi-node cluster with auto-unsealing
-- **Integration Guide**: See `README-VAULT-ESO.md` for complete Vault + ESO setup
+- **Integration Guide**: See `documents/vault-eso.md` for complete Vault + ESO setup
 
 ##### External Secrets Operator
 
@@ -750,11 +750,19 @@ This repository includes detailed setup and integration guides for specific comp
 
 #### Secrets Management Integration
 
-- **[README-VAULT-ESO.md](README-VAULT-ESO.md)**: Complete setup guide for HashiCorp Vault integration with External Secrets Operator
+- **[documents/vault-eso.md](documents/vault-eso.md)**: Complete setup guide for HashiCorp Vault integration with External Secrets Operator
   - Vault configuration and policies
   - Kubernetes authentication setup
   - SecretStore and ExternalSecret resource examples
   - Troubleshooting common integration issues
+
+#### GitLab CI/CD Pipeline Documentation
+
+- **[documents/terraform.md](documents/terraform.md)**: Operational documentation for the Terraform pipeline
+  - Pipeline architecture and workflow
+  - CI/CD variables and configuration
+  - Job reference and runbook procedures
+  - Security and troubleshooting guidance
 
 #### Platform Components Documentation
 
