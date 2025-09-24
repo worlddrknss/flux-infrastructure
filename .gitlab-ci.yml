@@ -82,10 +82,10 @@ apply:
   stage: apply
   script:
     - terraform apply -auto-approve tfplan
-    - terraform output -raw cluster_name > scripts/terraform/cluster_name
+    - terraform output -raw cluster_name > cluster_name
   artifacts:
     paths:
-      - scripts/terraform/cluster_name
+      - cluster_name
   dependencies:
     - plan
   needs: ["plan"]
