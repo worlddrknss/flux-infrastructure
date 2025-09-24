@@ -1,4 +1,4 @@
-stages: [flux]
+stages: [maintenance]
 
 flux-bootstrap:
   image: ghcr.io/fluxcd/flux-cli:v2.3.0

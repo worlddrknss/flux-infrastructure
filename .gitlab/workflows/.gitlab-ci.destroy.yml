@@ -1,4 +1,4 @@
-stages: [destroy]
+stages: [maintenance]
 
 destroy:
   extends: .terraform-job

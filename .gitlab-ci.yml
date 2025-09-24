@@ -5,8 +5,7 @@ stages:
   - validate
   - plan
   - apply
-  - flux
-  - destroy
+  - maintenance
 
 variables:
   TF_ROOT: "scripts/terraform"
@@ -97,14 +96,14 @@ apply:
         - scripts/terraform/**/*
 
 destroy-trigger:
-  stage: destroy
+  stage: maintenance
   trigger:
     include: .gitlab/workflows/.gitlab-ci.destroy.yml
   rules:
     - when: manual
 
 flux-bootstrap-trigger:
-  stage: flux
+  stage: maintenance
   trigger:
     include: .gitlab/workflows/.gitlab-ci.flux.yml
   rules:
