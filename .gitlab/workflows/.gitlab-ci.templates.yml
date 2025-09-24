@@ -6,10 +6,7 @@
     GITLAB_OIDC_TOKEN:
       aud: https://gitlab.com
   before_script:
-    # Install AWS CLI
     - apk add --no-cache aws-cli curl bash
-
-    # Assume AWS IAM role using GitLab OIDC
     - >
       aws_sts_output=$(aws sts assume-role-with-web-identity \
         --role-arn "$AWS_ROLE_ARN" \
@@ -18,19 +15,18 @@
         --duration-seconds 3600 \
         --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]' \
         --output text)
-
     - export $(printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s" $aws_sts_output)
     - aws sts get-caller-identity
-# --------------------------------
+
+# -----------------------------
 # Reusable Terraform Job Template
-# --------------------------------
+# -----------------------------
 .terraform-job:
   <<: *aws-login
   image:
     name: hashicorp/terraform:1.13.0
     entrypoint: ["/usr/bin/env", "sh", "-c"]
   before_script:
-    # Reuse AWS login, then add Terraform init
     - *aws-login
     - cd "$TF_ROOT"
     - |

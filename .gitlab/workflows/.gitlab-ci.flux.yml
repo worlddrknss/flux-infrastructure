@@ -6,11 +6,8 @@ flux-bootstrap:
   stage: maintenance
   before_script:
     - *aws-login
-    # Install Flux CLI
     - curl -s https://fluxcd.io/install.sh | bash
-    # Load cluster name from Terraform artifact
     - export EKS_CLUSTER_NAME=$(cat scripts/terraform/cluster_name)
-    # Update kubeconfig
     - aws eks update-kubeconfig --name "$EKS_CLUSTER_NAME" --region "$TF_STATE_REGION"
   script:
     - flux check --pre
@@ -21,6 +18,8 @@ flux-bootstrap:
         --branch=main \
         --path=flux/clusters/${EKS_CLUSTER_NAME} \
         --token-auth
+  rules:
+    - when: manual
 
 include:
   - local: .gitlab/workflows/.gitlab-ci.templates.yml

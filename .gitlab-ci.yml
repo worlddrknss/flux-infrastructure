@@ -64,6 +64,9 @@ apply:
       changes:
         - scripts/terraform/**/*
 
+# -----------------------------
+# Child Pipeline Triggers
+# -----------------------------
 destroy-trigger:
   stage: maintenance
   trigger:
