@@ -4,17 +4,11 @@ include:
 stages: [maintenance]
 
 flux-bootstrap:
-  id_tokens:
-    GITLAB_OIDC_TOKEN:
-      aud: https://gitlab.com
-  image: alpine:3.20
+  extends: .flux-job
   stage: maintenance
-  before_script:
-    - *aws-login
-    - curl -s https://fluxcd.io/install.sh | bash
+  script:
     - export EKS_CLUSTER_NAME=$(cat scripts/terraform/cluster_name)
     - aws eks update-kubeconfig --name "$EKS_CLUSTER_NAME" --region "$TF_STATE_REGION"
-  script:
     - flux check --pre
     - >
       flux bootstrap gitlab \

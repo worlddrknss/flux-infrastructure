@@ -32,3 +32,15 @@
         -backend-config="bucket=$TF_STATE_BUCKET" \
         -backend-config="key=$TF_STATE_KEY" \
         -backend-config="region=$TF_STATE_REGION"
+
+# -----------------------------
+# Reusable Flux Job Template
+# -----------------------------
+.flux-job:
+  id_tokens:
+    GITLAB_OIDC_TOKEN:
+      aud: https://gitlab.com
+  image: alpine:3.20
+  before_script:
+    - *aws-login
+    - curl -s https://fluxcd.io/install.sh | bash
