@@ -1,16 +1,15 @@
 stages: [maintenance]
 
 flux-bootstrap:
-  image:
-    name: ghcr.io/fluxcd/flux-cli:v2.3.0
-    entrypoint: ["/usr/bin/env", "sh", "-c"]
+  image: alpine:3.20
   stage: maintenance
   id_tokens:
     GITLAB_OIDC_TOKEN:
       aud: https://gitlab.com
   before_script:
-    # Install AWS CLI
-    - apk add --no-cache aws-cli
+    # Install AWS CLI + tools
+    - apk add --no-cache aws-cli curl bash
+
     # Assume AWS IAM role using GitLab OIDC
     - >
       aws_sts_output=$(aws sts assume-role-with-web-identity \
@@ -20,12 +19,19 @@ flux-bootstrap:
         --duration-seconds 3600 \
         --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]' \
         --output text)
+
     - export $(printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s" $aws_sts_output)
     - aws sts get-caller-identity
-    # Pull cluster name from terraform output
+
+    # Install Flux CLI
+    - curl -s https://fluxcd.io/install.sh | bash
+
+    # Load cluster name from Terraform output artifact
     - export EKS_CLUSTER_NAME=$(cat scripts/terraform/cluster_name)
-    # Update kubeconfig
+
+    # Update kubeconfig for the cluster
     - aws eks update-kubeconfig --name "$EKS_CLUSTER_NAME" --region "$TF_STATE_REGION"
+
   script:
     - flux check --pre
     - >
@@ -35,3 +41,6 @@ flux-bootstrap:
         --branch=main \
         --path=flux/clusters/${EKS_CLUSTER_NAME} \
         --token-auth
+
+include:
+  - local: .gitlab/workflows/.gitlab-ci.templates.yml

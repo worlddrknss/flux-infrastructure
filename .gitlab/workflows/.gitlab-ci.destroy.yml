@@ -5,3 +5,5 @@ destroy:
   stage: maintenance
   script:
     - terraform destroy -auto-approve
+include:
+  - local: .gitlab/workflows/.gitlab-ci.templates.yml
