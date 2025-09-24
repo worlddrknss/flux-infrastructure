@@ -1,7 +1,9 @@
 stages: [maintenance]
 
 flux-bootstrap:
-  image: ghcr.io/fluxcd/flux-cli:v2.3.0
+  image:
+    name: ghcr.io/fluxcd/flux-cli:v2.3.0
+    entrypoint: ["/usr/bin/env", "sh", "-c"]
   stage: maintenance
   id_tokens:
     GITLAB_OIDC_TOKEN:
