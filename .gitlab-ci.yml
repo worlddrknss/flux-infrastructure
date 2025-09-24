@@ -85,7 +85,7 @@ apply:
     - terraform output -raw cluster_name > cluster_name
   artifacts:
     paths:
-      - cluster_name
+      - scripts/terraform/cluster_name
   dependencies:
     - plan
   needs: ["plan"]
