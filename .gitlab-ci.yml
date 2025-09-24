@@ -93,21 +93,7 @@ apply:
       when: manual
       changes:
         - scripts/terraform/**/*
-
-destroy-trigger:
-  stage: maintenance
-  trigger:
-    include: .gitlab/workflows/.gitlab-ci.destroy.yml
-  rules:
-    - when: manual
-
-flux-bootstrap-trigger:
-  stage: maintenance
-  trigger:
-    include: .gitlab/workflows/.gitlab-ci.flux.yml
-  rules:
-    - when: manual
-
+        
 # -----------------------------
 # GitLab Security Templates
 # -----------------------------
