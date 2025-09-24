@@ -1,0 +1,7 @@
+stages: [destroy]
+
+destroy:
+  extends: .terraform-job
+  stage: destroy
+  script:
+    - terraform destroy -auto-approve

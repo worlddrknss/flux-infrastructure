@@ -5,6 +5,7 @@ stages:
   - validate
   - plan
   - apply
+  - flux
   - destroy
 
 variables:
@@ -47,6 +48,7 @@ secret_detection:
         -backend-config="bucket=$TF_STATE_BUCKET" \
         -backend-config="key=$TF_STATE_KEY" \
         -backend-config="region=$TF_STATE_REGION"
+
 # -----------------------------
 # Terraform Jobs
 # -----------------------------
@@ -81,27 +83,32 @@ apply:
   stage: apply
   script:
     - terraform apply -auto-approve tfplan
+    - terraform output -raw cluster_name > scripts/terraform/cluster_name
+  artifacts:
+    paths:
+      - scripts/terraform/cluster_name
   dependencies:
     - plan
   needs: ["plan"]
-  when: manual
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
+      when: manual
       changes:
         - scripts/terraform/**/*
-      when: manual
 
-destroy:
-  extends: .terraform-job
+destroy-trigger:
   stage: destroy
-  script:
-    - terraform destroy -auto-approve
-  when: manual
+  trigger:
+    include: .gitlab/workflows/.gitlab-ci.destroy.yml
   rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-      changes:
-        - scripts/terraform/**/*
-      when: manual
+    - when: manual
+
+flux-bootstrap-trigger:
+  stage: flux
+  trigger:
+    include: .gitlab/workflows/.gitlab-ci.flux.yml
+  rules:
+    - when: manual
 
 # -----------------------------
 # GitLab Security Templates
