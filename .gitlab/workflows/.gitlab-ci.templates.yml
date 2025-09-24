@@ -2,32 +2,30 @@
 # Reusable AWS OIDC Login Block
 # -----------------------------
 .aws-login: &aws-login
-  id_tokens:
-    GITLAB_OIDC_TOKEN:
-      aud: https://gitlab.com
-  before_script:
-    - apk add --no-cache aws-cli curl bash
-    - >
-      aws_sts_output=$(aws sts assume-role-with-web-identity \
-        --role-arn "$AWS_ROLE_ARN" \
-        --role-session-name "GitLabRunner-${CI_PROJECT_ID}-${CI_PIPELINE_ID}" \
-        --web-identity-token "$GITLAB_OIDC_TOKEN" \
-        --duration-seconds 3600 \
-        --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]' \
-        --output text)
-    - export $(printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s" $aws_sts_output)
-    - aws sts get-caller-identity
+  - apk add --no-cache aws-cli curl bash
+  - >
+    aws_sts_output=$(aws sts assume-role-with-web-identity \
+      --role-arn "$AWS_ROLE_ARN" \
+      --role-session-name "GitLabRunner-${CI_PROJECT_ID}-${CI_PIPELINE_ID}" \
+      --web-identity-token "$GITLAB_OIDC_TOKEN" \
+      --duration-seconds 3600 \
+      --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]' \
+      --output text)
+  - export $(printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s" $aws_sts_output)
+  - aws sts get-caller-identity
 
 # -----------------------------
 # Reusable Terraform Job Template
 # -----------------------------
 .terraform-job:
-  <<: *aws-login
+  id_tokens:
+    GITLAB_OIDC_TOKEN:
+      aud: https://gitlab.com
   image:
     name: hashicorp/terraform:1.13.0
     entrypoint: ["/usr/bin/env", "sh", "-c"]
   before_script:
-    - *aws-login
+    *aws-login
     - cd "$TF_ROOT"
     - |
       terraform init \
