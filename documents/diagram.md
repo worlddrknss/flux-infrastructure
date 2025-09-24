@@ -85,7 +85,7 @@ flowchart TD
     W --> X[Stage 6: monitoring]
     X --> Y[Deploy kube-prometheus-stack<br/>Prometheus + Grafana]
     X --> Z[Deploy loki-stack<br/>Log Aggregation]
-    X --> AA[Apply PodMonitors<br/>& Dashboards]
+    X --> AA[Apply PodMonitors<br/>and Dashboards]
     
     Y --> BB[Stage 7: apps]
     Z --> BB
@@ -93,9 +93,9 @@ flowchart TD
     
     BB --> CC[Deploy apps/namespaces<br/>demo-namespace]
     CC --> DD[Apply Network Policies<br/>allow-linksphere-postgres-policy]
-    DD --> EE[Deploy Applications:<br/>linksphere (Helm),<br/>postgres]
+    DD --> EE[Deploy Applications:<br/>linksphere Helm,<br/>postgres]
     
-    EE --> FF[Health Checks &<br/>Continuous Reconciliation]
+    EE --> FF[Health Checks and<br/>Continuous Reconciliation]
     FF --> GG{Configuration Drift?}
     
     GG -->|Yes| HH[Auto-Reconciliation<br/>Git Source of Truth]
@@ -104,14 +104,14 @@ flowchart TD
     HH --> F
     II --> FF
     
-    subgraph "External Secrets Flow"
+    subgraph ESF [External Secrets Flow]
         R --> JJ[ESO Watches Vault]
         S --> KK[Vault Stores Secrets]
         JJ --> LL[Creates K8s Secrets]
         KK --> JJ
     end
     
-    subgraph "Network Security"
+    subgraph NSF [Network Security]
         K --> MM[Pod-to-Pod Encryption]
         L --> NN[Cilium Network Policies]
         M --> OO[Traffic Flow Control]
