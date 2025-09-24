@@ -7,8 +7,22 @@ flux-bootstrap:
   extends: .flux-job
   stage: maintenance
   script:
-    - export EKS_CLUSTER_NAME=$(cat scripts/terraform/cluster_name)
+    # Go into terraform working dir
+    - cd scripts/terraform
+
+    # Re-init to connect to remote backend (S3/Dynamo)
+    - terraform init \
+        -backend-config="bucket=$TF_STATE_BUCKET" \
+        -backend-config="key=$TF_STATE_KEY" \
+        -backend-config="region=$TF_STATE_REGION"
+
+    # Read cluster_name directly from remote state
+    - export EKS_CLUSTER_NAME=$(terraform output -raw cluster_name)
+
+    # Configure kubectl
     - aws eks update-kubeconfig --name "$EKS_CLUSTER_NAME" --region "$TF_STATE_REGION"
+
+    # Check Flux and bootstrap
     - flux check --pre
     - >
       flux bootstrap gitlab \
