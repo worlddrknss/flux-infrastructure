@@ -1,3 +1,6 @@
+include:
+  - local: .gitlab/workflows/.gitlab-ci.templates.yml
+
 stages: [maintenance]
 
 flux-bootstrap:
@@ -22,6 +25,3 @@ flux-bootstrap:
         --token-auth
   rules:
     - when: manual
-
-include:
-  - local: .gitlab/workflows/.gitlab-ci.templates.yml

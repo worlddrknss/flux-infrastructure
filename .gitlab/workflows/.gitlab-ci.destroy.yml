@@ -1,3 +1,6 @@
+include:
+  - local: .gitlab/workflows/.gitlab-ci.templates.yml
+
 stages: [maintenance]
 
 destroy:
@@ -7,6 +10,3 @@ destroy:
     - terraform destroy -auto-approve
   rules:
     - when: manual
-
-include:
-  - local: .gitlab/workflows/.gitlab-ci.templates.yml
