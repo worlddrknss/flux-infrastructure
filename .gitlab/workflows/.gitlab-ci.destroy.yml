@@ -1,4 +1,8 @@
-stages: [maintenance]
+stages:
+  - destroy
+
+include:
+  - local: .gitlab-ci.yml   # reuse terraform-job definition
 
 destroy:
   extends: .terraform-job

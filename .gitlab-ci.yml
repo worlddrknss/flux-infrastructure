@@ -5,7 +5,6 @@ stages:
   - validate
   - plan
   - apply
-  - maintenance
 
 variables:
   TF_ROOT: "scripts/terraform"
