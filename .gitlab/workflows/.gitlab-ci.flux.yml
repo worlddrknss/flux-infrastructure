@@ -1,10 +1,7 @@
-stages:
-  - flux
+stages: [maintenance]
 
 flux-bootstrap:
-  image:
-    name: ghcr.io/fluxcd/flux-cli:v2.3.0
-    entrypoint: ["/usr/bin/env", "sh", "-c"]
+  image: ghcr.io/fluxcd/flux-cli:v2.3.0
   stage: flux
   before_script:
     - apk add --no-cache aws-cli

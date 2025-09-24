@@ -5,6 +5,7 @@ stages:
   - validate
   - plan
   - apply
+  - maintenance
 
 variables:
   TF_ROOT: "scripts/terraform"
@@ -93,7 +94,23 @@ apply:
       when: manual
       changes:
         - scripts/terraform/**/*
-        
+
+destroy-trigger:
+  stage: maintenance
+  trigger:
+    include: .gitlab/workflows/.gitlab-ci.destroy.yml
+  rules:
+    - when: manual
+  allow_failure: true
+
+flux-bootstrap-trigger:
+  stage: maintenance
+  trigger:
+    include: .gitlab/workflows/.gitlab-ci.flux.yml
+  rules:
+    - when: manual
+  allow_failure: true
+
 # -----------------------------
 # GitLab Security Templates
 # -----------------------------
