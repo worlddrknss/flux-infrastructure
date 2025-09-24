@@ -2,6 +2,6 @@ stages: [maintenance]
 
 destroy:
   extends: .terraform-job
-  stage: destroy
+  stage: maintenance
   script:
     - terraform destroy -auto-approve

@@ -2,7 +2,7 @@ stages: [maintenance]
 
 flux-bootstrap:
   image: ghcr.io/fluxcd/flux-cli:v2.3.0
-  stage: flux
+  stage: maintenance
   id_tokens:
     GITLAB_OIDC_TOKEN:
       aud: https://gitlab.com
