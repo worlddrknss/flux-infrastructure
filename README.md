@@ -18,6 +18,7 @@
 - [Security & Compliance](#security--compliance)
 - [Troubleshooting](#troubleshooting)
 - [Enterprise Considerations](#enterprise-considerations)
+- [Documentation](#documentation)
 - [Contributing](#contributing)
 - [Support](#support)
 
